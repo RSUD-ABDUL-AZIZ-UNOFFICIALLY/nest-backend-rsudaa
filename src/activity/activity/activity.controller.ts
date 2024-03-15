@@ -9,7 +9,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 export class ActivityController {
     constructor(
         private activityService: ActivityService
-    ) { }
+    ) {}
 
     @Get()
     getActivity(): string {

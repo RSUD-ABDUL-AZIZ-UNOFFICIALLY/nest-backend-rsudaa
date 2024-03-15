@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { ActivityModule } from './activity/activity.module';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './prisma/prisma.module';
+import { ValidationModule } from './validation/validation.module';
+import { SequelizeModule } from './sequelize/sequelize.module';
 
 @Module({
   imports: [
@@ -11,7 +13,9 @@ import { PrismaModule } from './prisma/prisma.module';
       isGlobal: true
     }),
     ActivityModule,
-    PrismaModule
+    PrismaModule,
+    ValidationModule.forRoot(true),
+    SequelizeModule
   ],
   controllers: [AppController],
   providers: [AppService],

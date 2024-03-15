@@ -1,7 +1,9 @@
-import { Body, Controller, Get, Header, Param, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, Get, Header, Param, Post, Req, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { Response } from "express";
 import { ActivityService } from './activity.service';
 import { promises } from 'dns';
+import { activity } from '@prisma/client';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('/api/activity')
 export class ActivityController {
@@ -15,23 +17,17 @@ export class ActivityController {
     }
 
     @Get('/findone/:name')
-    async findOne(@Param('name') name: string) {
-        return await this.activityService.findOne(name)
+    findOne(@Param('name') name: string) {
+        return this.activityService.findOne(name)
     }
 
     @Post('/post')
-    @Header('Content-Type', 'application/json')
-    async postActivity(@Body('name') name: string, @Body('link') link: string, @Res() res: Response): Promise<string> {
-        return await new Promise((resolve, reject) => {
-            res.status(200).json({
-                status: 200,
-                message: `Received data successfully`,
-                data: {
-                    name: name,
-                    link: link
-                }
-            });
-            resolve('Response sent successfully'); // Resolve the promise with a success message
-        });
+    @UseInterceptors(FileInterceptor('images'))
+    async postActivity(
+        @Body('title') title: string,
+        @Body('desc') desc?: string,
+        @UploadedFile() images?: any
+    ): Promise<activity> {
+        return await this.activityService.save(title, desc, images)
     }
 }

@@ -1,14 +1,18 @@
 import { Injectable, Res } from '@nestjs/common';
 import { activity } from '@prisma/client';
+import { PrismaClientValidationError } from '@prisma/client/runtime/library';
 import { info } from 'console';
+import { Sequelize } from 'sequelize-typescript';
 import { PrismaService } from 'src/prisma/prisma/prisma.service';
 import { ValidationService } from 'src/validation/validation/validation.service';
 import { z } from "zod";
+
 @Injectable()
 export class ActivityService {
     constructor(
         private prismaService: PrismaService,
-        private validation: ValidationService
+        private validation: ValidationService,
+        private sequelize: Sequelize
     ) { }
 
     findOne(name: string) {
@@ -16,7 +20,6 @@ export class ActivityService {
             const schema = z.string().min(8).max(100)
             const Result = this.validation.validate(schema, name)
 
-            return `hello ${Result}`
             return {
                 status: 200,
                 message: `hello ${Result}`,
@@ -38,7 +41,6 @@ export class ActivityService {
                 imagesName = [images.originalname]
             }
 
-
             const newActivity = await this.prismaService.activity.create({
                 data: {
                     title: title,
@@ -55,7 +57,11 @@ export class ActivityService {
                 }
             }
         } catch (error) {
-            console.log(error);
+            return {
+                status: 500,
+                message: `create data failed`,
+                error: error
+            }
         }
     }
 

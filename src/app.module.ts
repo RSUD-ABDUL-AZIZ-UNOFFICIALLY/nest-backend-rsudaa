@@ -5,7 +5,7 @@ import { ActivityModule } from './activity/activity.module';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './prisma/prisma.module';
 import { ValidationModule } from './validation/validation.module';
-import { SequelizeModule } from './sequelize/sequelize.module';
+import { SequelizeModule } from '@nestjs/sequelize';
 
 @Module({
   imports: [
@@ -15,7 +15,15 @@ import { SequelizeModule } from './sequelize/sequelize.module';
     ActivityModule,
     PrismaModule,
     ValidationModule.forRoot(true),
-    SequelizeModule
+    SequelizeModule.forRoot({
+      dialect: 'mysql',
+      host: 'localhost',
+      port: 3306,
+      username: 'root',
+      password: '',
+      database: 'db_rsud',
+      models: [],
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],

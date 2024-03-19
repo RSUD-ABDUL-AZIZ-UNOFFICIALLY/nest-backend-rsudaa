@@ -13,7 +13,6 @@ export class AnnouncementController {
     ) { }
 
     @Get()
-
     async getAnnounce(): Promise<announcement | any> {
         return this.announcementService.findAll()
     }
@@ -35,7 +34,6 @@ export class AnnouncementController {
                 }),
         ) images?: Array<Express.Multer.File>,
     ): Promise<any> {
-
         return await this.announcementService.save(title, desc, images)
     }
 

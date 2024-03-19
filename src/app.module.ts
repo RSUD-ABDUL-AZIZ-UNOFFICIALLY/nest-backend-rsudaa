@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './prisma/prisma.module';
 import { ValidationModule } from './validation/validation.module';
 import { AnnouncementModule } from './announcement/announcement.module';
+import { SocmedModule } from './socmed/socmed.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { AnnouncementModule } from './announcement/announcement.module';
     PrismaModule,
     ValidationModule.forRoot(true),
     AnnouncementModule,
+    SocmedModule,
   ],
   controllers: [AppController],
   providers: [AppService],

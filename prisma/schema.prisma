@@ -17,7 +17,6 @@ model activity {
   id         Int      @id @default(autoincrement())
   activityID String   @unique
   title      String   @db.VarChar(250)
-  date       DateTime @db.DateTime()
   desc       String?  @db.VarChar(1000)
   images     Json?    @db.Json
   createdAt  DateTime @default(now())
@@ -30,7 +29,6 @@ model announcement {
   id             Int      @id @default(autoincrement())
   announcementID String   @unique
   title          String   @db.VarChar(250)
-  date           DateTime @db.DateTime()
   desc           String?  @db.VarChar(1000)
   images         Json?    @db.Json
   createdAt      DateTime @default(now())

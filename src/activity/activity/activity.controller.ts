@@ -39,18 +39,6 @@ export class ActivityController {
                 }),
         ) images?: Array<Express.Multer.File>,
     ): Promise<any> {
-        if (images) {
-            for (let i = 0; i < images.length; i++) {
-                const mimeType = mime.lookup(images[i].originalname);
-                if (!mimeType || !['image/jpeg', 'image/jpg', 'image/png'].includes(mimeType)) {
-                    return {
-                        status: 200,
-                        message: 'post data failed',
-                        error: 'files must have images extensions [jpg, jpeg, png]'
-                    }
-                }
-            }
-        }
         return await this.activityService.save(title, desc, images)
     }
 
@@ -71,18 +59,6 @@ export class ActivityController {
                 }),
         ) images?: Array<Express.Multer.File>,
     ): Promise<any> {
-        if (images) {
-            for (let i = 0; i < images.length; i++) {
-                const mimeType = mime.lookup(images[i].originalname);
-                if (!mimeType || !['image/jpeg', 'image/jpg', 'image/png'].includes(mimeType)) {
-                    return {
-                        status: 200,
-                        message: 'post data failed',
-                        error: 'files must have images extensions [jpg, jpeg, png]'
-                    }
-                }
-            }
-        }
         return await this.activityService.update(activityId, title, desc, images)
     }
 

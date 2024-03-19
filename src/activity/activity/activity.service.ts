@@ -4,8 +4,8 @@ import { error } from 'console';
 import { randomUUID } from 'crypto';
 import { PrismaService } from 'src/prisma/prisma/prisma.service';
 import { ValidationService } from 'src/validation/validation/validation.service';
-import { z } from "zod";
-
+import { date, z } from "zod";
+import * as mime from 'mime-types';
 const ActivitySchema = z.object({
     activityId: z.string().uuid(),
     title: z.string(),
@@ -60,9 +60,27 @@ export class ActivityService {
 
     async save(title: string, desc?: string, images?: Array<Express.Multer.File>): Promise<any> {
         try {
+            if (images) {
+                for (let i = 0; i < images.length; i++) {
+                    const mimeType = mime.lookup(images[i].originalname);
+                    if (!mimeType || !['image/jpeg', 'image/jpg', 'image/png'].includes(mimeType)) {
+                        return {
+                            status: 200,
+                            message: 'post data failed',
+                            error: 'files must have images extensions [jpg, jpeg, png]'
+                        }
+                    }
+                }
+            }
+
             const activityId = randomUUID()
 
-            const validatedData = ActivitySchema.parse({ activityId, title, desc });
+            const validatedData = ActivitySchema.parse(
+                {
+                    activityId,
+                    title,
+                    desc
+                });
 
             let activityImages = []
             if (images) {
@@ -107,8 +125,21 @@ export class ActivityService {
             if (!dataActivity) {
                 return {
                     status: 200,
-                    message: `Activity with ID "${activityId}" not found`,
-                    error: true
+                    message: 'post data failed',
+                    error: `Activiry with ID "${activityId}" not found`
+                }
+            }
+
+            if (images) {
+                for (let i = 0; i < images.length; i++) {
+                    const mimeType = mime.lookup(images[i].originalname);
+                    if (!mimeType || !['image/jpeg', 'image/jpg', 'image/png'].includes(mimeType)) {
+                        return {
+                            status: 200,
+                            message: 'post data failed',
+                            error: 'files must have images extensions [jpg, jpeg, png]'
+                        }
+                    }
                 }
             }
 
@@ -154,12 +185,12 @@ export class ActivityService {
             if (!dataActivity) {
                 return {
                     status: 200,
-                    message: `Activity with ID "${activityId}" not found`,
-                    error: true
+                    message: 'post data failed',
+                    error: `Activiry with ID "${activityId}" not found`
                 }
             }
 
-            const deleteUser = await this.prismaService.activity.delete({
+            const deleteActivity = await this.prismaService.activity.delete({
                 where: {
                     activityID: activityId
                 },
@@ -168,12 +199,12 @@ export class ActivityService {
             return {
                 status: 200,
                 message: 'delete data successfully',
-                data: deleteUser
+                data: deleteActivity
             }
         } catch (error) {
             return {
                 status: 500,
-                message: `update data failed`,
+                message: `delete data failed`,
                 error: error
             }
         }

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaClient, activity } from '@prisma/client';
+import { PrismaClient, activity, announcement } from '@prisma/client';
 import { info } from 'console';
 
 @Injectable()
@@ -11,6 +11,10 @@ export class PrismaService extends PrismaClient {
 
     async findMany(): Promise<activity[]> {
         return await this.activity.findMany();
+    }
+
+    async findManyAnnounce(): Promise<announcement[]> {
+        return await this.announcement.findMany();
     }
 }
 

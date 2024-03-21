@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, ParseFilePipeBuilder, Post, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Param, ParseFilePipeBuilder, Post, UploadedFiles, UseInterceptors } from '@nestjs/common';
 import { SocmedService } from './socmed.service';
 import { socmed } from '@prisma/client';
 import { FilesInterceptor } from '@nestjs/platform-express';
@@ -16,11 +16,19 @@ export class SocmedController {
     }
 
     @Post('/post')
-    @UseInterceptors(FilesInterceptor('images'))
-    async postAnnouncement(
+    async postSocmed(
         @Body('name') name: string,
         @Body('link') link: Url,
     ): Promise<socmed | any> {
         return await this.socmedService.save(name, link)
+    }
+
+    @Post('/update/:nameSocmed')
+    async updateSocmed(
+        @Param('nameSocmed') nameSocmed: string,
+        @Body('name') name?: string,
+        @Body('link') link?: Url,
+    ): Promise<socmed | any> {
+        return await this.socmedService.update(nameSocmed, name, link)
     }
 }

@@ -40,9 +40,20 @@ model announcement {
 model socmed {
   id        Int      @id @default(autoincrement())
   name      String   @unique @db.VarChar(250)
-  link      String   @db.VarChar(1000) 
+  link      String   @db.VarChar(1000)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("socmeds")
+}
+
+model profile {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique @db.VarChar(250)
+  desc      String?  @db.VarChar(1000)
+  images    Json?    @db.Json()
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("profiles")
 }

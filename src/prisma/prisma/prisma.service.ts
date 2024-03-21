@@ -6,7 +6,6 @@ import { info } from 'console';
 export class PrismaService extends PrismaClient {
     constructor() {
         super()
-        info('create prisma service')
     }
 
     async findMany(): Promise<activity[]> {
@@ -18,6 +17,10 @@ export class PrismaService extends PrismaClient {
     }
 
     async findManySocmed(): Promise<socmed[]> {
+        return await this.socmed.findMany();
+    }
+
+    async findManyProfile(): Promise<socmed[]> {
         return await this.socmed.findMany();
     }
 }

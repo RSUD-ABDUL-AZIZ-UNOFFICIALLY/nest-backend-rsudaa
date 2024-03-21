@@ -7,6 +7,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { ValidationModule } from './validation/validation.module';
 import { AnnouncementModule } from './announcement/announcement.module';
 import { SocmedModule } from './socmed/socmed.module';
+import { ProfileModule } from './profile/profile.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { SocmedModule } from './socmed/socmed.module';
     ValidationModule.forRoot(true),
     AnnouncementModule,
     SocmedModule,
+    ProfileModule,
   ],
   controllers: [AppController],
   providers: [AppService],

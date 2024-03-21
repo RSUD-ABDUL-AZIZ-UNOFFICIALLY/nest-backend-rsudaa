@@ -60,7 +60,7 @@ export class SocmedService {
                     message: 'post data failed',
                     error: {
                         path: 'unique',
-                        message: `socmed with NAME "${data.name}" has been added`
+                        message: `Social Media with NAME "${data.name}" has been added`
                     }
                 }
             }
@@ -83,6 +83,87 @@ export class SocmedService {
             return {
                 status: 500,
                 message: `create data failed`,
+                error: error
+            }
+        }
+    }
+
+    async update(nameSocmed: string, name: string, link?: Url): Promise<any> {
+        try {
+            const dataSocmed = await this.prismaService.socmed.findUnique({
+                where: {
+                    name: nameSocmed
+                },
+            });
+
+            if (!dataSocmed) {
+                return {
+                    status: 200,
+                    message: 'post data failed',
+                    error: `Social media with name "${name}" not found`
+                }
+            }
+
+            const validatedData = SocmedSchema.parse(
+                {
+                    name: name ? name : dataSocmed.name,
+                    link: link ? link : dataSocmed.link
+                }
+            );
+
+            const updatedSocmed = await this.prismaService.socmed.update({
+                where: { name: nameSocmed },
+                data: {
+                    name: name ? validatedData.name : dataSocmed.name,
+                    link: link ? validatedData.link : dataSocmed.link,
+                }
+            });
+
+            return {
+                status: 200,
+                message: 'update data successfully',
+                data: updatedSocmed
+            }
+        } catch (error) {
+            return {
+                status: 500,
+                message: `update data failed`,
+                error: error
+            }
+        }
+    }
+
+    async delete(name: string): Promise<any> {
+        try {
+            const dataSocmed = await this.prismaService.socmed.findUnique({
+                where: {
+                    name: name
+                },
+            });
+
+            if (!dataSocmed) {
+                return {
+                    status: 200,
+                    message: 'post data failed',
+                    error: `Social Media with name "${name}" not found`
+                }
+            }
+
+            const deleteSocmed = await this.prismaService.socmed.delete({
+                where: {
+                    name: name
+                },
+            });
+
+            return {
+                status: 200,
+                message: 'delete data successfully',
+                data: deleteSocmed
+            }
+        } catch (error) {
+            return {
+                status: 500,
+                message: `delete data failed`,
                 error: error
             }
         }

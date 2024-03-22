@@ -174,7 +174,7 @@ export class AnnouncementService {
             if (!dataAnnnouncement) {
                 return {
                     status: 200,
-                    message: 'post data failed',
+                    message: 'delete data failed',
                     error: `Announcement with ID "${announcementID}" not found`
                 }
             }

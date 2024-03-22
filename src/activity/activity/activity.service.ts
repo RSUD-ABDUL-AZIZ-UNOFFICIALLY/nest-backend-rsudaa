@@ -185,7 +185,7 @@ export class ActivityService {
             if (!dataActivity) {
                 return {
                     status: 200,
-                    message: 'post data failed',
+                    message: 'delete data failed',
                     error: `Activiry with ID "${activityId}" not found`
                 }
             }

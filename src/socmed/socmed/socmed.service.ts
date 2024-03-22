@@ -88,7 +88,7 @@ export class SocmedService {
         }
     }
 
-    async update(nameSocmed: string, name: string, link?: Url): Promise<any> {
+    async update(nameSocmed: string, name?: string, link?: Url): Promise<any> {
         try {
             const dataSocmed = await this.prismaService.socmed.findUnique({
                 where: {
@@ -144,7 +144,7 @@ export class SocmedService {
             if (!dataSocmed) {
                 return {
                     status: 200,
-                    message: 'post data failed',
+                    message: 'delete data failed',
                     error: `Social Media with name "${name}" not found`
                 }
             }

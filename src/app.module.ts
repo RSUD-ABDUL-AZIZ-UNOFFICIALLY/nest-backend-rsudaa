@@ -8,6 +8,8 @@ import { ValidationModule } from './validation/validation.module';
 import { AnnouncementModule } from './announcement/announcement.module';
 import { SocmedModule } from './socmed/socmed.module';
 import { ProfileModule } from './profile/profile.module';
+import { LokerModule } from './loker/loker.module';
+import { MagangModule } from './magang/magang.module';
 
 @Module({
   imports: [
@@ -20,6 +22,8 @@ import { ProfileModule } from './profile/profile.module';
     AnnouncementModule,
     SocmedModule,
     ProfileModule,
+    LokerModule,
+    MagangModule,
   ],
   controllers: [AppController],
   providers: [AppService],

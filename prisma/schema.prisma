@@ -85,35 +85,37 @@ model magang {
 }
 
 model applicationLoker {
-  id         Int    @id @default(autoincrement())
-  applyId    String @unique
-  email      String @db.VarChar(100)
-  fullName   String @db.VarChar(250)
-  loker      loker  @relation(fields: [lokerId], references: [id])
-  lokerId    String @unique
-  sekolah    String @db.VarChar(500)
-  jurusan    String @db.VarChar(500)
-  jenjang    String @db.VarChar(100)
-  address    String @db.VarChar(1000)
-  fileResume String @db.VarChar(500)
-  fileApply  String @db.VarChar(500)
+  id         String   @id @unique
+  email      String   @db.VarChar(100)
+  fullName   String   @db.VarChar(250)
+  loker      loker    @relation(fields: [lokerId], references: [id])
+  lokerId    String   @unique
+  sekolah    String   @db.VarChar(500)
+  jurusan    String   @db.VarChar(500)
+  jenjang    String   @db.VarChar(100)
+  address    String   @db.VarChar(1000)
+  fileResume String   @db.VarChar(500)
+  fileApply  String   @db.VarChar(500)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   @@map("applicationLokers")
 }
 
 model applicationMagang {
-  id         Int    @id @default(autoincrement())
-  applyId    String @unique
-  email      String @db.VarChar(100)
-  fullName   String @db.VarChar(250)
-  magang     magang @relation(fields: [magangId], references: [id])
-  magangId   String @unique
-  sekolah    String @db.VarChar(500)
-  jurusan    String @db.VarChar(500)
-  jenjang    String @db.VarChar(100)
-  address    String @db.VarChar(1000)
-  fileResume String @db.VarChar(500)
-  fileApply  String @db.VarChar(500)
+  id         String   @id @unique
+  email      String   @db.VarChar(100)
+  fullName   String   @db.VarChar(250)
+  magang     magang   @relation(fields: [magangId], references: [id])
+  magangId   String   @unique
+  sekolah    String   @db.VarChar(500)
+  jurusan    String   @db.VarChar(500)
+  jenjang    String   @db.VarChar(100)
+  address    String   @db.VarChar(1000)
+  fileResume String   @db.VarChar(500)
+  fileApply  String   @db.VarChar(500)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   @@map("applicationMagangs")
 }

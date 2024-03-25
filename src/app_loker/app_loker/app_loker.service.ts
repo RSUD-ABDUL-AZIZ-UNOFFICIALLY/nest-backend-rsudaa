@@ -4,7 +4,8 @@ import { randomUUID, UUID } from 'crypto';
 import { PrismaService } from 'src/prisma/prisma/prisma.service';
 import { ValidationService } from 'src/validation/validation/validation.service';
 import { z } from 'zod';
-
+import * as mime from 'mime-types';
+import { error } from 'console';
 const appSchema = z.object({
     id: z.string(),
     email: z.string(),
@@ -91,6 +92,37 @@ export class AppLokerService {
             let fileResume: string
             let fileApply: string
 
+            if (files) {
+                if (files.fileResume[0]) {
+                    const mimeTypeFileResume = mime.lookup(files.fileResume[0].originalname)
+                    if (!mimeTypeFileResume || !['application/pdf'].includes(mimeTypeFileResume)) {
+                        return {
+                            status: 200,
+                            message: 'post data failed',
+                            error: {
+                                path: 'fileResume',
+                                message: 'File must be either a PDF'
+                            }
+                        }
+
+                    }
+                }
+
+                if (files.fileApply[0]) {
+                    const mimeTypeFileApply = mime.lookup(files.fileApply[0].originalname)
+                    if (!mimeTypeFileApply || !['application/pdf'].includes(mimeTypeFileApply)) {
+                        return {
+                            status: 200,
+                            message: 'post data failed',
+                            error: {
+                                path: 'fileApply',
+                                message: 'File must be either a PDF'
+                            }
+                        }
+
+                    }
+                }
+            }
 
             if (files) {
                 fileResume = files.fileResume[0].originalname
@@ -101,8 +133,16 @@ export class AppLokerService {
                 id, email, fullName, lokerId, sekolah, jurusan, jenjang, address, fileResume, fileApply
             })
 
+
             const dataLoker = await this.prismaService.loker.findUnique({
-                where: { id: validation.lokerId }
+                where: { id: validation.lokerId },
+                include: {
+                    applicationLoker: {
+                        where: {
+                            email: validation.email
+                        }
+                    }
+                }
             })
 
             if (!dataLoker) {
@@ -111,7 +151,19 @@ export class AppLokerService {
                     message: `post data failed`,
                     error: `data loker not found, please select loker`
                 }
+            } else {
+                if (dataLoker.applicationLoker.length > 0) {
+                    return {
+                        status: 500,
+                        message: `post data failed`,
+                        error: {
+                            path: `email`,
+                            message: `${validation.email} has applied loker ${dataLoker.name}`
+                        }
+                    }
+                }
             }
+
 
             const create = await this.prismaService.applicationLoker.create({
                 data: {

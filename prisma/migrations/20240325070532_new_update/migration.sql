@@ -85,7 +85,7 @@ CREATE TABLE `applicationLokers` (
     `email` VARCHAR(100) NOT NULL,
     `fullName` VARCHAR(250) NOT NULL,
     `lokerId` VARCHAR(191) NOT NULL,
-    `pendidikanAkhir` VARCHAR(500) NOT NULL,
+    `sekolah` VARCHAR(500) NOT NULL,
     `jurusan` VARCHAR(500) NOT NULL,
     `jenjang` VARCHAR(100) NOT NULL,
     `address` VARCHAR(1000) NOT NULL,
@@ -95,7 +95,6 @@ CREATE TABLE `applicationLokers` (
     `updatedAt` DATETIME(3) NOT NULL,
 
     UNIQUE INDEX `applicationLokers_id_key`(`id`),
-    UNIQUE INDEX `applicationLokers_lokerId_key`(`lokerId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -105,7 +104,7 @@ CREATE TABLE `applicationMagangs` (
     `email` VARCHAR(100) NOT NULL,
     `fullName` VARCHAR(250) NOT NULL,
     `magangId` VARCHAR(191) NOT NULL,
-    `perguruanTinggi` VARCHAR(500) NOT NULL,
+    `sekolah` VARCHAR(500) NOT NULL,
     `jurusan` VARCHAR(500) NOT NULL,
     `jenjang` VARCHAR(100) NOT NULL,
     `address` VARCHAR(1000) NOT NULL,
@@ -115,7 +114,6 @@ CREATE TABLE `applicationMagangs` (
     `updatedAt` DATETIME(3) NOT NULL,
 
     UNIQUE INDEX `applicationMagangs_id_key`(`id`),
-    UNIQUE INDEX `applicationMagangs_magangId_key`(`magangId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 

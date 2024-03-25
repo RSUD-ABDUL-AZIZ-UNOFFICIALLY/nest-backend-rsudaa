@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { randomUUID } from "crypto";
 
 const prisma = new PrismaClient()
 
@@ -81,8 +82,28 @@ async function main() {
         ],
         skipDuplicates: true,
     })
+    const loker = await prisma.loker.createMany({
+        data: [
+            {
+                id: randomUUID(),
+                name: 'Programmer',
+                desc: 'Dibutuhkan segera posisi Programmer di RSUS dr Abdul Aziz Kota Singkawang,Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque commodo ut felis nec tincidunt. Phasellus sed auctor massa. Mauris mattis ultrices quam, ac ultricies ipsum vehicula id. Ut ac consectetur lorem, a feugiat nulla. Fusce vitae nunc id est elementum dapibus ut a urna. Quisque accumsan lorem urna, eu viverra est varius eget. Morbi id urna tempor, rhoncus mi et, egestas ante. Mauris auctor eget felis ut posuere. Pellentesque ultricies volutpat urna, eget ornare lacus euismod et. Sed porta congue lorem, non dapibus lorem malesuada non. Ut a aliquam dui. Etiam sit amet eleifend purus. Suspendisse sem orci, rhoncus fringilla est vitae, egestas auctor velit. Maecenas commodo ultricies sem, congue lobortis lacus scelerisque sed.'
+            },
+            {
+                id: randomUUID(),
+                name: 'IT Support',
+                desc: 'Dibutuhkan segera posisi IT Support di RSUS dr Abdul Aziz Kota Singkawang,Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque commodo ut felis nec tincidunt. Phasellus sed auctor massa. Mauris mattis ultrices quam, ac ultricies ipsum vehicula id. Ut ac consectetur lorem, a feugiat nulla. Fusce vitae nunc id est elementum dapibus ut a urna. Quisque accumsan lorem urna, eu viverra est varius eget. Morbi id urna tempor, rhoncus mi et, egestas ante. Mauris auctor eget felis ut posuere. Pellentesque ultricies volutpat urna, eget ornare lacus euismod et. Sed porta congue lorem, non dapibus lorem malesuada non. Ut a aliquam dui. Etiam sit amet eleifend purus. Suspendisse sem orci, rhoncus fringilla est vitae, egestas auctor velit. Maecenas commodo ultricies sem, congue lobortis lacus scelerisque sed.'
+            },
+            {
+                id: randomUUID(),
+                name: 'Content Creator',
+                desc: 'Dibutuhkan segera posisi Content Creator di RSUS dr Abdul Aziz Kota Singkawang,Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque commodo ut felis nec tincidunt. Phasellus sed auctor massa. Mauris mattis ultrices quam, ac ultricies ipsum vehicula id. Ut ac consectetur lorem, a feugiat nulla. Fusce vitae nunc id est elementum dapibus ut a urna. Quisque accumsan lorem urna, eu viverra est varius eget. Morbi id urna tempor, rhoncus mi et, egestas ante. Mauris auctor eget felis ut posuere. Pellentesque ultricies volutpat urna, eget ornare lacus euismod et. Sed porta congue lorem, non dapibus lorem malesuada non. Ut a aliquam dui. Etiam sit amet eleifend purus. Suspendisse sem orci, rhoncus fringilla est vitae, egestas auctor velit. Maecenas commodo ultricies sem, congue lobortis lacus scelerisque sed.'
+            },
+        ],
+        skipDuplicates: true,
+    })
 
-    return { profile, socmed }
+    return { profile, socmed, loker }
 }
 
 main()

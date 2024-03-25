@@ -89,7 +89,7 @@ model applicationLoker {
   email      String   @db.VarChar(100)
   fullName   String   @db.VarChar(250)
   loker      loker    @relation(fields: [lokerId], references: [id])
-  lokerId    String   @unique
+  lokerId    String
   sekolah    String   @db.VarChar(500)
   jurusan    String   @db.VarChar(500)
   jenjang    String   @db.VarChar(100)
@@ -107,7 +107,7 @@ model applicationMagang {
   email      String   @db.VarChar(100)
   fullName   String   @db.VarChar(250)
   magang     magang   @relation(fields: [magangId], references: [id])
-  magangId   String   @unique
+  magangId   String
   sekolah    String   @db.VarChar(500)
   jurusan    String   @db.VarChar(500)
   jenjang    String   @db.VarChar(100)

@@ -22,7 +22,13 @@ export class LokerService {
 
     async findAll(): Promise<loker | any> {
         try {
-            const data = await this.prismaService.loker.findMany()
+            const data = await this.prismaService.loker.findMany(
+                {
+                    include: {
+                        applicationLoker: true
+                    }
+                }
+            )
 
             return {
                 status: 200,

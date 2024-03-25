@@ -10,6 +10,8 @@ import { SocmedModule } from './socmed/socmed.module';
 import { ProfileModule } from './profile/profile.module';
 import { LokerModule } from './loker/loker.module';
 import { MagangModule } from './magang/magang.module';
+import { AppLokerModule } from './app_loker/app_loker.module';
+
 
 @Module({
   imports: [
@@ -24,6 +26,7 @@ import { MagangModule } from './magang/magang.module';
     ProfileModule,
     LokerModule,
     MagangModule,
+    AppLokerModule,
   ],
   controllers: [AppController],
   providers: [AppService],

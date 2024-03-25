@@ -67,8 +67,7 @@ CREATE TABLE `lokers` (
 
 -- CreateTable
 CREATE TABLE `magangs` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `magangId` VARCHAR(191) NOT NULL,
+    `id` VARCHAR(191) NOT NULL,
     `name` VARCHAR(250) NOT NULL,
     `desc` VARCHAR(1000) NULL,
     `dateStart` DATETIME NULL,
@@ -76,27 +75,52 @@ CREATE TABLE `magangs` (
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
-    UNIQUE INDEX `magangs_magangId_key`(`magangId`),
+    UNIQUE INDEX `magangs_id_key`(`id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `applicationLokers` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `applyId` VARCHAR(191) NOT NULL,
+    `id` VARCHAR(191) NOT NULL,
     `email` VARCHAR(100) NOT NULL,
     `fullName` VARCHAR(250) NOT NULL,
     `lokerId` VARCHAR(191) NOT NULL,
-    `sekolah` VARCHAR(500) NOT NULL,
+    `pendidikanAkhir` VARCHAR(500) NOT NULL,
+    `jurusan` VARCHAR(500) NOT NULL,
     `jenjang` VARCHAR(100) NOT NULL,
     `address` VARCHAR(1000) NOT NULL,
     `fileResume` VARCHAR(500) NOT NULL,
     `fileApply` VARCHAR(500) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
 
-    UNIQUE INDEX `applicationLokers_applyId_key`(`applyId`),
+    UNIQUE INDEX `applicationLokers_id_key`(`id`),
     UNIQUE INDEX `applicationLokers_lokerId_key`(`lokerId`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `applicationMagangs` (
+    `id` VARCHAR(191) NOT NULL,
+    `email` VARCHAR(100) NOT NULL,
+    `fullName` VARCHAR(250) NOT NULL,
+    `magangId` VARCHAR(191) NOT NULL,
+    `perguruanTinggi` VARCHAR(500) NOT NULL,
+    `jurusan` VARCHAR(500) NOT NULL,
+    `jenjang` VARCHAR(100) NOT NULL,
+    `address` VARCHAR(1000) NOT NULL,
+    `fileResume` VARCHAR(500) NOT NULL,
+    `fileApply` VARCHAR(500) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
+
+    UNIQUE INDEX `applicationMagangs_id_key`(`id`),
+    UNIQUE INDEX `applicationMagangs_magangId_key`(`magangId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
 ALTER TABLE `applicationLokers` ADD CONSTRAINT `applicationLokers_lokerId_fkey` FOREIGN KEY (`lokerId`) REFERENCES `lokers`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `applicationMagangs` ADD CONSTRAINT `applicationMagangs_magangId_fkey` FOREIGN KEY (`magangId`) REFERENCES `magangs`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

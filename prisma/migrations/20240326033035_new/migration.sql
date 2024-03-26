@@ -1,4 +1,15 @@
 -- CreateTable
+CREATE TABLE `users` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `no_wa` VARCHAR(191) NOT NULL,
+    `fullName` VARCHAR(250) NOT NULL,
+    `password` VARCHAR(250) NOT NULL,
+
+    UNIQUE INDEX `users_no_wa_key`(`no_wa`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `activities` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `activityID` VARCHAR(191) NOT NULL,

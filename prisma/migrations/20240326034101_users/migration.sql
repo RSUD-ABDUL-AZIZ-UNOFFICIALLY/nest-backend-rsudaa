@@ -14,3 +14,6 @@ ALTER TABLE `lokers` MODIFY `dateStart` DATETIME NULL,
 -- AlterTable
 ALTER TABLE `magangs` MODIFY `dateStart` DATETIME NULL,
     MODIFY `dateEnd` DATETIME NULL;
+
+-- AlterTable
+ALTER TABLE `users` MODIFY `no_wa` VARCHAR(191) NOT NULL;

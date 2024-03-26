@@ -13,6 +13,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model user {
+  id       Int    @id @default(autoincrement())
+  no_wa    String @unique
+  fullName String @db.VarChar(250)
+  password String @db.VarChar(250)
+
+  @@map("users")
+}
+
 model activity {
   id         Int      @id @default(autoincrement())
   activityID String   @unique

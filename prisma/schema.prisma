@@ -14,10 +14,10 @@ datasource db {
 }
 
 model user {
-  id       Int    @id @default(autoincrement())
-  no_wa    String @unique
-  fullName String @db.VarChar(250)
-  password String @db.VarChar(250)
+  no_wa    String  @id @unique @db.VarChar(100)
+  fullName String  @db.VarChar(250)
+  password String  @db.VarChar(250)
+  token    String? @db.VarChar(250)
 
   @@map("users")
 }

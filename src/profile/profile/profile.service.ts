@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { profile } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma/prisma.service';
-import { ValidationService } from 'src/validation/validation/validation.service';
 import { date, z } from "zod";
 import * as mime from 'mime-types';
 import { error } from 'console';
@@ -14,13 +13,12 @@ const ProfileSchema = z.object({
 @Injectable()
 export class ProfileService {
     constructor(
-        private prismaService: PrismaService,
-        private validation: ValidationService
+        private prismaService: PrismaService
     ) { }
 
     async findAll() {
         try {
-            const profile = await this.prismaService.findManyProfile()
+            const profile = await this.prismaService.profile.findMany()
 
             return {
                 status: 200,

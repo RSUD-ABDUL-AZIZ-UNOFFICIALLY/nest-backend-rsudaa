@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { applicationLoker } from '@prisma/client';
 import { randomUUID, UUID } from 'crypto';
 import { PrismaService } from 'src/prisma/prisma/prisma.service';
-import { ValidationService } from 'src/validation/validation/validation.service';
 import { z } from 'zod';
 import * as mime from 'mime-types';
 import { error } from 'console';
@@ -23,7 +22,6 @@ const appSchema = z.object({
 export class AppLokerService {
     constructor(
         private prismaService: PrismaService,
-        private validation: ValidationService
     ) { }
 
     async findAll() {

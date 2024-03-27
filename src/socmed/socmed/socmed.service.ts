@@ -3,7 +3,6 @@ import { date, z } from "zod";
 import * as mime from 'mime-types';
 import { socmed } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma/prisma.service';
-import { ValidationService } from 'src/validation/validation/validation.service';
 import { Url } from 'url';
 import path from 'path';
 
@@ -16,12 +15,11 @@ const SocmedSchema = z.object({
 export class SocmedService {
     constructor(
         private prismaService: PrismaService,
-        private validation: ValidationService,
     ) { }
 
     async findAll(): Promise<socmed | any> {
         try {
-            const announcement = await this.prismaService.findManySocmed()
+            const announcement = await this.prismaService.socmed.findMany()
 
             return {
                 status: 200,

@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { loker } from '@prisma/client';
 import { randomUUID, UUID } from 'crypto';
 import { PrismaService } from 'src/prisma/prisma/prisma.service';
-import { ValidationService } from 'src/validation/validation/validation.service';
 import { z } from "zod";
 
 const lokerSchema = z.object({
@@ -17,7 +16,6 @@ const lokerSchema = z.object({
 export class LokerService {
     constructor(
         private prismaService: PrismaService,
-        private validation: ValidationService
     ) { }
 
     async findAll(): Promise<loker | any> {

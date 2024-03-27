@@ -1,12 +1,12 @@
 -- CreateTable
 CREATE TABLE `users` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `no_wa` VARCHAR(191) NOT NULL,
+    `no_wa` VARCHAR(100) NOT NULL,
     `fullName` VARCHAR(250) NOT NULL,
     `password` VARCHAR(250) NOT NULL,
+    `token` VARCHAR(250) NULL,
 
     UNIQUE INDEX `users_no_wa_key`(`no_wa`),
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`no_wa`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable

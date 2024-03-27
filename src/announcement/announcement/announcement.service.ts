@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { announcement } from '@prisma/client';
 import { randomUUID } from 'crypto';
 import { PrismaService } from 'src/prisma/prisma/prisma.service';
-import { ValidationService } from 'src/validation/validation/validation.service';
 import { date, z } from "zod";
 import * as mime from 'mime-types';
 
@@ -16,12 +15,11 @@ const AnnounceSchema = z.object({
 export class AnnouncementService {
     constructor(
         private prismaService: PrismaService,
-        private validation: ValidationService,
     ) { }
 
     async findAll(): Promise<announcement | any> {
         try {
-            const announcement = await this.prismaService.findManyAnnounce()
+            const announcement = await this.prismaService.announcement.findMany()
 
             return {
                 status: 200,

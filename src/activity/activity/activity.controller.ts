@@ -47,9 +47,6 @@ export class ActivityController {
         @Body('desc') desc?: string,
         @UploadedFiles(
             new ParseFilePipeBuilder()
-                // .addFileTypeValidator({
-                //     fileType: 'image/jpeg',
-                // })
                 .build({
                     errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
                     fileIsRequired: false

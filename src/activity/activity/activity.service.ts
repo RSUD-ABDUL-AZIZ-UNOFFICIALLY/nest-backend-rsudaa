@@ -1,11 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { activity } from '@prisma/client';
-import { error } from 'console';
 import { randomUUID } from 'crypto';
-import { PrismaService } from 'src/prisma/prisma/prisma.service';
-import { ValidationService } from 'src/validation/validation/validation.service';
-import { date, z } from "zod";
+import { z } from "zod";
 import * as mime from 'mime-types';
+import { PrismaService } from 'src/prisma/prisma/prisma.service';
 const ActivitySchema = z.object({
     activityId: z.string().uuid(),
     title: z.string(),
@@ -16,12 +14,11 @@ const ActivitySchema = z.object({
 export class ActivityService {
     constructor(
         private prismaService: PrismaService,
-        private validation: ValidationService,
     ) { }
 
     async findAll(): Promise<activity | any> {
         try {
-            const activity = await this.prismaService.findMany()
+            const activity = await this.prismaService.activity.findMany()
 
             return {
                 status: 200,
@@ -41,13 +38,7 @@ export class ActivityService {
 
     findOne(name: string) {
         try {
-            const schema = z.string().min(8).max(100)
-            const Result = this.validation.validate(schema, name)
 
-            return {
-                status: 200,
-                message: `hello ${Result}`,
-            }
 
         } catch (error) {
             return {

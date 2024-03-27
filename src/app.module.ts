@@ -1,10 +1,7 @@
 import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ActivityModule } from './activity/activity.module';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './prisma/prisma.module';
-import { ValidationModule } from './validation/validation.module';
 import { AnnouncementModule } from './announcement/announcement.module';
 import { SocmedModule } from './socmed/socmed.module';
 import { ProfileModule } from './profile/profile.module';
@@ -15,20 +12,11 @@ import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
 import { LogMiddleware } from './log/log.middleware';
 import { UserModule } from './user/user.module';
-import { AuthModule } from './auth/auth.module';
+import { CummonModule } from './cummon/cummon.module';
 
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true
-    }),
-    ValidationModule.forRoot(true),
-    WinstonModule.forRoot({
-      format: winston.format.json(),
-      level: 'debug',
-      transports: [new winston.transports.Console]
-    }),
     ActivityModule,
     PrismaModule,
     AnnouncementModule,
@@ -38,10 +26,10 @@ import { AuthModule } from './auth/auth.module';
     MagangModule,
     AppLokerModule,
     UserModule,
-    AuthModule,
+    CummonModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

@@ -14,10 +14,11 @@ export class UserController {
     async register(
         @Body() request: RegisterUserRequest
     ): Promise<WebResponse<UserResponse>> {
-        const result = await this.userService.register(request)
         return {
-            data: result,
-
+            data: {
+                fullName: '',
+                no_wa: ''
+            }
         }
     }
 

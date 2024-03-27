@@ -1,5 +1,5 @@
 import { HttpException, Inject, Injectable } from '@nestjs/common';
-import { PrismaClient, user } from '@prisma/client';
+import { user } from '@prisma/client';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { ValidationService } from 'src/cummon/validation.service';
 import { RegisterUserRequest, UserResponse } from 'src/model/user.model';

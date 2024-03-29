@@ -13,6 +13,7 @@ import * as winston from 'winston';
 import { LogMiddleware } from './log/log.middleware';
 import { UserModule } from './user/user.module';
 import { CummonModule } from './cummon/cummon.module';
+import { JwtModule } from '@nestjs/jwt';
 
 
 @Module({
@@ -31,11 +32,4 @@ import { CummonModule } from './cummon/cummon.module';
   controllers: [],
   providers: [],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LogMiddleware).forRoutes({
-      path: '/api/*',
-      method: RequestMethod.ALL
-    })
-  }
-}
+export class AppModule { }

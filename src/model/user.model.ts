@@ -5,7 +5,12 @@ export class RegisterUserRequest {
 }
 
 export class UserResponse {
+    no_wa?: string
+    fullName?: string
+    token?: any
+}
+
+export class LoginUserRequest {
     no_wa: string
-    fullName: string
-    token?: string
+    password: string
 }

@@ -10,7 +10,6 @@ import { MagangModule } from './magang/magang.module';
 import { AppLokerModule } from './app_loker/app_loker.module';
 import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
-import { LogMiddleware } from './log/log.middleware';
 import { UserModule } from './user/user.module';
 import { CummonModule } from './cummon/cummon.module';
 import { JwtModule } from '@nestjs/jwt';

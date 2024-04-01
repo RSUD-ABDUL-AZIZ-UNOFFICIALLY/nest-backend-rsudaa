@@ -14,6 +14,7 @@ import { LogMiddleware } from './log/log.middleware';
 import { UserModule } from './user/user.module';
 import { CummonModule } from './cummon/cummon.module';
 import { JwtModule } from '@nestjs/jwt';
+import { AuthModule } from './auth/auth.module';
 
 
 @Module({
@@ -28,6 +29,7 @@ import { JwtModule } from '@nestjs/jwt';
     AppLokerModule,
     UserModule,
     CummonModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],

@@ -5,7 +5,7 @@ import { LoginUserRequest, RegisterUserRequest, UserResponse } from 'src/model/u
 import { Auth } from 'src/cummon/auth.decorator';
 import { user } from '@prisma/client';
 import { AuthMidlleware } from 'src/cummon/auth.middleware';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 
 @Controller('/api/users')
 export class UserController {
@@ -13,27 +13,12 @@ export class UserController {
         private userService: UserService
     ) { }
 
-
-    @Post('/register')
-    async register(
-        @Body() request: RegisterUserRequest
-    ): Promise<WebResponse<UserResponse>> {
-        return await this.userService.register(request)
-    }
-
-    @Post('/login')
-    async login(
-        @Body() req: LoginUserRequest,
-    ): Promise<WebResponse<UserResponse>> {
-        return await this.userService.login(req)
-    }
-
     @Get('/current')
     async getAuth(
         @Auth() user: user,
         @Req() req: Request
     ): Promise<WebResponse<UserResponse> | any> {
-        return await this.userService.getAuth(user, req)
+        return await this.userService.getAuth(req)
     }
 
 }

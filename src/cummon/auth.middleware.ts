@@ -20,11 +20,14 @@ export class AuthMidlleware implements NestMiddleware {
 
             if (user) {
                 req.user = user
+                next()
             } else {
                 throw new UnauthorizedException()
             }
+        } else {
+            throw new UnauthorizedException()
         }
 
-        next()
+        // next()
     }
 }

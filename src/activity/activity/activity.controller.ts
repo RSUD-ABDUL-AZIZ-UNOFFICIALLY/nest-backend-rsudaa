@@ -6,6 +6,7 @@ import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { promises } from 'dns';
 import * as mime from 'mime-types';
 import { log } from 'console';
+import { Auth } from 'src/cummon/auth.decorator';
 
 @Controller('/api/activity')
 export class ActivityController {

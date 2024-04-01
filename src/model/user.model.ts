@@ -12,5 +12,11 @@ export class UserResponse {
 
 export class LoginUserRequest {
     no_wa: string
-    password: string
+    otp: string
+    password?: string
+}
+
+export class getOtpUserRequest {
+    no_wa: string
+    app_name?: string
 }

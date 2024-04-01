@@ -1,7 +1,8 @@
 import { Body, Controller, Get, HttpStatus, Param, ParseFilePipeBuilder, Post, UploadedFiles, UseInterceptors } from '@nestjs/common';
 import { ProfileService } from './profile.service';
-import { profile } from '@prisma/client';
+import { profile, user } from '@prisma/client';
 import { FilesInterceptor } from '@nestjs/platform-express';
+import { Auth } from 'src/cummon/auth.decorator';
 
 @Controller('/api/profile')
 export class ProfileController {
@@ -22,6 +23,7 @@ export class ProfileController {
     @Post('/post')
     @UseInterceptors(FilesInterceptor('images'))
     async postActivity(
+        @Auth() user: user,
         @Body('name') name: string,
         @Body('desc') desc?: string,
         @UploadedFiles(
@@ -38,6 +40,7 @@ export class ProfileController {
     @Post('/update/:dataName')
     @UseInterceptors(FilesInterceptor('images'))
     async updateActivity(
+        @Auth() user: user,
         @Param('dataName') dataName: string,
         @Body('name') name?: string,
         @Body('desc') desc?: string,
@@ -54,6 +57,7 @@ export class ProfileController {
 
     @Post('/delete/:name')
     async deleteActivity(
+        @Auth() user: user,
         @Param('name') name: string,
     ): Promise<any> {
         return await this.profileService.delete(name)

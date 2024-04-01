@@ -1,7 +1,7 @@
 import { Body, Controller, FileTypeValidator, Get, Header, HttpStatus, MaxFileSizeValidator, Param, ParseFilePipe, ParseFilePipeBuilder, Post, Req, Res, UploadedFile, UploadedFiles, UseInterceptors } from '@nestjs/common';
 import { Response } from "express";
 import { ActivityService } from './activity.service';
-import { activity } from '@prisma/client';
+import { activity, user } from '@prisma/client';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { promises } from 'dns';
 import * as mime from 'mime-types';
@@ -27,6 +27,7 @@ export class ActivityController {
     @Post('/post')
     @UseInterceptors(FilesInterceptor('images'))
     async postActivity(
+        @Auth() user: user,
         @Body('title') title: string,
         @Body('desc') desc?: string,
         @UploadedFiles(
@@ -43,6 +44,7 @@ export class ActivityController {
     @Post('/update/:activityId')
     @UseInterceptors(FilesInterceptor('images'))
     async updateActivity(
+        @Auth() user: user,
         @Param('activityId') activityId: string,
         @Body('title') title?: string,
         @Body('desc') desc?: string,
@@ -59,6 +61,7 @@ export class ActivityController {
 
     @Post('/delete/:activityId')
     async deleteActivity(
+        @Auth() user: user,
         @Param('activityId') activityId: string,
     ): Promise<any> {
         return await this.activityService.delete(activityId)

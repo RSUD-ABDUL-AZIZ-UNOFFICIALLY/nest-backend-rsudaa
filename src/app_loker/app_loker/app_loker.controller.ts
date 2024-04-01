@@ -1,8 +1,9 @@
 import { Body, Controller, Get, HttpStatus, Param, ParseFilePipeBuilder, Post, UploadedFile, UploadedFiles, UseInterceptors } from '@nestjs/common';
 import { AppLokerService } from './app_loker.service';
-import { applicationLoker } from '@prisma/client';
+import { applicationLoker, user } from '@prisma/client';
 import { UUID } from 'crypto';
 import { FileFieldsInterceptor, FileInterceptor, NoFilesInterceptor } from '@nestjs/platform-express';
+import { Auth } from 'src/cummon/auth.decorator';
 
 @Controller('/api/app-loker')
 export class AppLokerController {
@@ -30,6 +31,7 @@ export class AppLokerController {
         ]),
     )
     post(
+        @Auth() user: user,
         @Body('email') email: string,
         @Body('fullName') fullName: string,
         @Body('lokerId') lokerId: UUID,

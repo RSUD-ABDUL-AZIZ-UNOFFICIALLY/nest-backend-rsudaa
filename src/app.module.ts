@@ -14,6 +14,8 @@ import { UserModule } from './user/user.module';
 import { CummonModule } from './cummon/cummon.module';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthModule } from './auth/auth.module';
+import { DokterModule } from './dokter/dokter.module';
+import { PoliklinikModule } from './poliklinik/poliklinik.module';
 
 
 @Module({
@@ -29,6 +31,8 @@ import { AuthModule } from './auth/auth.module';
     UserModule,
     CummonModule,
     AuthModule,
+    DokterModule,
+    PoliklinikModule,
   ],
   controllers: [],
   providers: [],

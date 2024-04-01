@@ -1,8 +1,9 @@
 import { Body, Controller, Get, HttpStatus, Param, ParseFilePipeBuilder, Post, UploadedFiles, UseInterceptors } from '@nestjs/common';
 import { SocmedService } from './socmed.service';
-import { socmed } from '@prisma/client';
+import { socmed, user } from '@prisma/client';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { Url } from 'url';
+import { Auth } from 'src/cummon/auth.decorator';
 
 @Controller('/api/socmed')
 export class SocmedController {
@@ -17,6 +18,7 @@ export class SocmedController {
 
     @Post('/post')
     async postSocmed(
+        @Auth() user: user,
         @Body('name') name: string,
         @Body('link') link: Url,
     ): Promise<socmed | any> {
@@ -25,6 +27,7 @@ export class SocmedController {
 
     @Post('/update/:nameSocmed')
     async updateSocmed(
+        @Auth() user: user,
         @Param('nameSocmed') nameSocmed: string,
         @Body('name') name?: string,
         @Body('link') link?: Url,

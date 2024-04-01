@@ -1,10 +1,11 @@
 import { Body, Controller, Get, HttpStatus, Param, ParseFilePipeBuilder, Post, UploadedFiles, UseInterceptors } from '@nestjs/common';
 import { AnnouncementService } from './announcement.service';
-import { announcement } from '@prisma/client';
+import { announcement, user } from '@prisma/client';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import * as mime from 'mime-types';
 import { UUID } from 'crypto';
 import { ZodDate, ZodDateDef } from 'zod';
+import { Auth } from 'src/cummon/auth.decorator';
 
 @Controller('/api/announcement')
 export class AnnouncementController {
@@ -20,6 +21,7 @@ export class AnnouncementController {
     @Post('/post')
     @UseInterceptors(FilesInterceptor('images'))
     async postAnnouncement(
+        @Auth() user: user,
         @Body('title') title: string,
         @Body('date') date: string,
         @Body('desc') desc?: string,
@@ -40,6 +42,7 @@ export class AnnouncementController {
     @Post('/update/:announcementID')
     @UseInterceptors(FilesInterceptor('images'))
     async updateAnnouncement(
+        @Auth() user: user,
         @Param('announcementID') announcementID: UUID,
         @Body('title') title?: string,
         @Body('desc') desc?: string,
@@ -59,6 +62,7 @@ export class AnnouncementController {
 
     @Post('/delete/:announcementID')
     async deleteActivity(
+        @Auth() user: user,
         @Param('announcementID') announcementID: string,
     ): Promise<any> {
         return await this.announcementService.delete(announcementID)

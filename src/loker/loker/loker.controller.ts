@@ -1,8 +1,9 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { LokerService } from './loker.service';
-import { loker } from '@prisma/client';
+import { loker, user } from '@prisma/client';
 import { z } from "zod";
 import { UUID } from 'crypto';
+import { Auth } from 'src/cummon/auth.decorator';
 @Controller('/api/loker')
 export class LokerController {
     constructor(
@@ -37,6 +38,7 @@ export class LokerController {
 
     @Post('/delete/:id')
     delete(
+        @Auth() user: user,
         @Param('id') id: UUID
     ) {
         return this.lokerService.delete(id)

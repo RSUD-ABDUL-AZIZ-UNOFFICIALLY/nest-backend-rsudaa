@@ -6,6 +6,7 @@ import * as  winston from 'winston';
 import { ValidationService } from './validation.service';
 import { AuthMidlleware } from './auth.middleware';
 import { JwtModule } from '@nestjs/jwt';
+import { HttpModule } from '@nestjs/axios';
 
 @Global()
 @Module({
@@ -23,7 +24,8 @@ import { JwtModule } from '@nestjs/jwt';
             signOptions: {
                 expiresIn: '1h'
             }
-        })
+        }),
+        HttpModule
     ],
     providers: [PrismaService, ValidationService],
     exports: [PrismaService, ValidationService]

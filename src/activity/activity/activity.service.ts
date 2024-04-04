@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, ParamData } from '@nestjs/common';
 import { activity } from '@prisma/client';
 import { randomUUID } from 'crypto';
 import { z } from "zod";
@@ -16,9 +16,37 @@ export class ActivityService {
         private prismaService: PrismaService,
     ) { }
 
-    async findAll(): Promise<activity | any> {
+    async findAll(data?: number): Promise<activity | any> {
         try {
-            const activity = await this.prismaService.activity.findMany()
+            let activity = null
+            if (data) {
+                activity = await this.prismaService.activity.findMany({
+                    take: data,
+                })
+            } else {
+                activity = await this.prismaService.activity.findMany()
+            }
+
+            return {
+                status: 200,
+                message: 'get data successfully',
+                data: {
+                    activity: activity
+                }
+            }
+        } catch (error) {
+            return {
+                status: 500,
+                message: 'get data failed   ',
+                error: error
+            }
+        }
+    }
+    async findAllPagination(page: number): Promise<activity | any> {
+        try {
+            const activity = await this.prismaService.activity.findMany({
+                take: 2,
+            })
 
             return {
                 status: 200,

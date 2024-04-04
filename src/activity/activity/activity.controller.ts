@@ -1,4 +1,4 @@
-import { Body, Controller, FileTypeValidator, Get, Header, HttpStatus, MaxFileSizeValidator, Param, ParseFilePipe, ParseFilePipeBuilder, Post, Req, Res, UploadedFile, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, FileTypeValidator, Get, Header, HttpStatus, MaxFileSizeValidator, Param, ParamData, ParseFilePipe, ParseFilePipeBuilder, Post, Query, Req, Res, UploadedFile, UploadedFiles, UseInterceptors } from '@nestjs/common';
 import { Response } from "express";
 import { ActivityService } from './activity.service';
 import { activity, user } from '@prisma/client';
@@ -7,6 +7,7 @@ import { promises } from 'dns';
 import * as mime from 'mime-types';
 import { log } from 'console';
 import { Auth } from 'src/cummon/auth.decorator';
+import { WebResponse } from 'src/model/web.model';
 
 @Controller('/api/activity')
 export class ActivityController {
@@ -15,8 +16,11 @@ export class ActivityController {
     ) { }
 
     @Get()
-    getActivity(): Promise<activity> {
-        return this.activityService.findAll()
+    async getActivity(
+        @Query('data') data?: any
+    ): Promise<WebResponse<any>> {
+        data = parseInt(data)
+        return this.activityService.findAll(data)
     }
 
     @Get('/findone/:name')

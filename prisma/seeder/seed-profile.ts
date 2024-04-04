@@ -113,7 +113,28 @@ async function main() {
         skipDuplicates: true,
     })
 
-    return { profile, socmed, loker }
+    const activity = await prisma.activity.createMany({
+        data: [
+            {
+                activityID: randomUUID(),
+                title: 'Aktivitas 1',
+                desc: 'Dibutuhkan segera posisi Programmer di RSUS dr Abdul Aziz Kota Singkawang,Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque commodo ut felis nec tincidunt. Phasellus sed auctor massa. Mauris mattis ultrices quam, ac ultricies ipsum vehicula id. Ut ac consectetur lorem, a feugiat nulla. Fusce vitae nunc id est elementum dapibus ut a urna. Quisque accumsan lorem urna, eu viverra est varius eget. Morbi id urna tempor, rhoncus mi et, egestas ante. Mauris auctor eget felis ut posuere. Pellentesque ultricies volutpat urna, eget ornare lacus euismod et. Sed porta congue lorem, non dapibus lorem malesuada non. Ut a aliquam dui. Etiam sit amet eleifend purus. Suspendisse sem orci, rhoncus fringilla est vitae, egestas auctor velit. Maecenas commodo ultricies sem, congue lobortis lacus scelerisque sed.',
+            },
+            {
+                activityID: randomUUID(),
+                title: 'Aktivitas 2',
+                desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque commodo ut felis nec tincidunt. Phasellus sed auctor massa. Mauris mattis ultrices quam, ac ultricies ipsum vehicula id. Ut ac consectetur lorem, a feugiat nulla. Fusce vitae nunc id est elementum dapibus ut'
+            },
+            {
+                activityID: randomUUID(),
+                title: 'Aktivitas 3',
+                desc: 'Lorem ipsum dolor sit amet,  a urna. Quisque accumsan lorem urna, eu viverra est varius eget. Morbi id urna tempor, rhoncus mi et, egestas ante. Mauris auctor ',
+            },
+        ],
+        skipDuplicates: true,
+    })
+
+    return { profile, socmed, loker, activity }
 }
 
 main()

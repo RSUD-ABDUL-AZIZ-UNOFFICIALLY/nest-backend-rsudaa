@@ -84,7 +84,7 @@ export class AuthService {
 
         const loginRequest: LoginUserRequest = this.validationService.validate(UserValidation.LOGIN, req)
 
-        let user = await this.prismaService.user.findUnique(
+        let user = await this.prismaService.user.findFirst(
             {
                 where: {
                     no_wa: loginRequest.no_wa
@@ -93,13 +93,15 @@ export class AuthService {
         )
 
 
-        if (!user) {
-            // throw new UnauthorizedException();
-            throw new HttpException({
-                success: false,
-                message: `account is not registered`
-            }, HttpStatus.FORBIDDEN)
-        }
+        // console.log('login', user);
+
+        // if (!user) {
+        //     // throw new UnauthorizedException();
+        //     throw new HttpException({
+        //         success: false,
+        //         message: `account is not registered`
+        //     }, HttpStatus.FORBIDDEN)
+        // }
 
         let token = ''
 

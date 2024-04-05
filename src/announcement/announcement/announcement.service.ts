@@ -17,9 +17,20 @@ export class AnnouncementService {
         private prismaService: PrismaService,
     ) { }
 
-    async findAll(): Promise<announcement | any> {
+    async findAll(data?: number): Promise<announcement | any> {
         try {
-            const announcement = await this.prismaService.announcement.findMany()
+            let announcement = null
+
+            if (data) {
+                announcement = await this.prismaService.announcement.findMany({
+                    take: data,
+                    orderBy: {
+                        createdAt: 'desc'
+                    }
+                })
+            } else {
+                announcement = await this.prismaService.announcement.findMany()
+            }
 
             return {
                 status: 200,

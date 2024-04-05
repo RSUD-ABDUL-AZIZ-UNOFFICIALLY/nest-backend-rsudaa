@@ -22,9 +22,16 @@ export class ActivityService {
             if (data) {
                 activity = await this.prismaService.activity.findMany({
                     take: data,
+                    orderBy: {
+                        createdAt: 'desc'
+                    }
                 })
             } else {
-                activity = await this.prismaService.activity.findMany()
+                activity = await this.prismaService.activity.findMany({
+                    orderBy: {
+                        createdAt: 'desc'
+                    }
+                })
             }
 
             return {

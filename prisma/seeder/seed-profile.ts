@@ -134,7 +134,38 @@ async function main() {
         skipDuplicates: true,
     })
 
-    return { profile, socmed, loker, activity }
+    const announcement = await prisma.announcement.createMany({
+        data: [
+            {
+                announcementID: randomUUID(),
+                title: 'Pengumuman Jadwal Poli',
+                desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque commodo ut felis nec tincidunt. Phasellus sed auctor massa. Mauris mattis ultrices quam, ac ultricies ipsum vehicula id. Ut ac consectetur lorem, a feugiat nulla. Fusce vitae nunc id est elementum dapibus ut a urna.',
+            },
+            {
+                announcementID: randomUUID(),
+                title: 'Pengumuman BPJS',
+                desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque commodo ut felis nec tincidunt. Phasellus sed auctor massa. Mauris mattis ultrices quam, ac ultricies ipsum vehicula id. Ut ac consectetur lorem, a feugiat nulla. Fusce vitae nunc id est elementum dapibus ut a urna.',
+            },
+            {
+                announcementID: randomUUID(),
+                title: 'Pengumuman Pendaftaran Loket',
+                desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque commodo ut felis nec tincidunt. Phasellus sed auctor massa. Mauris mattis ultrices quam, ac ultricies ipsum vehicula id. Ut ac consectetur lorem, a feugiat nulla. Fusce vitae nunc id est elementum dapibus ut a urna.',
+            },
+            {
+                announcementID: randomUUID(),
+                title: 'Pengumuman Pelayanan',
+                desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque commodo ut felis nec tincidunt. Phasellus sed auctor massa. Mauris mattis ultrices quam, ac ultricies ipsum vehicula id. Ut ac consectetur lorem, a feugiat nulla. Fusce vitae nunc id est elementum dapibus ut a urna.',
+            },
+            {
+                announcementID: randomUUID(),
+                title: 'Pengumuman Pelayanan 2024',
+                desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque commodo ut felis nec tincidunt. Phasellus sed auctor massa. Mauris mattis ultrices quam, ac ultricies ipsum vehicula id. Ut ac consectetur lorem, a feugiat nulla. Fusce vitae nunc id est elementum dapibus ut a urna.',
+            },
+        ],
+        skipDuplicates: true,
+    })
+
+    return { profile, socmed, loker, activity, announcement }
 }
 
 main()

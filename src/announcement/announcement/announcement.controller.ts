@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Param, ParseFilePipeBuilder, Post, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Param, ParseFilePipeBuilder, Post, Query, UploadedFiles, UseInterceptors } from '@nestjs/common';
 import { AnnouncementService } from './announcement.service';
 import { announcement, user } from '@prisma/client';
 import { FilesInterceptor } from '@nestjs/platform-express';
@@ -14,8 +14,11 @@ export class AnnouncementController {
     ) { }
 
     @Get()
-    async getAnnounce(): Promise<announcement | any> {
-        return this.announcementService.findAll()
+    async getAnnounce(
+        @Query('data') data?: any
+    ): Promise<announcement | any> {
+        data = parseInt(data)
+        return this.announcementService.findAll(data)
     }
 
     @Post('/post')

@@ -1,6 +1,7 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { WebResponse } from 'src/model/web.model';
 import { DokterService } from './dokter.service';
+import { string } from 'zod';
 
 @Controller('/api/dokter')
 export class DokterController {
@@ -9,7 +10,10 @@ export class DokterController {
     ) { }
 
     @Get()
-    async getDokter(): Promise<WebResponse<any>> {
-        return await this.dokterService.findAll()
+    async getDokter(
+        @Query('data') data: any
+    ): Promise<WebResponse<any>> {
+        data = parseInt(data)
+        return await this.dokterService.findAll(data)
     }
 }

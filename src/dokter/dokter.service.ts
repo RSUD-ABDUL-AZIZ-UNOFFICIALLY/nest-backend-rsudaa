@@ -15,7 +15,7 @@ export class DokterService {
         @Inject(WINSTON_MODULE_PROVIDER) private logger: Logger,
         private configService: ConfigService
     ) { }
-    async findAll(): Promise<WebResponse<any>> {
+    async findAll(data: any): Promise<WebResponse<any>> {
         try {
             const baseUrl = this.configService.get('SIMRS_URL')
             const usernameSIMRS = this.configService.get('SIMRS_USERNAME')
@@ -38,11 +38,22 @@ export class DokterService {
                 }
             })
 
+            let dokter = []
+
             if (dataDokter && dataDokter.data) {
+                const dokteritem = dataDokter.data.data
+                for (let i = 0; i < dokteritem.length; i++) {
+                    for (let j = 0; j < dokteritem[i].dokter.length; j++) {
+                        const data = {
+                            name: dokteritem[i].dokter[j]
+                        }
+                        dokter.push(data)
+                    }
+                }
                 return {
                     success: true,
                     message: `get data successfully`,
-                    data: dataDokter.data
+                    data: dokter
                 }
             }
 

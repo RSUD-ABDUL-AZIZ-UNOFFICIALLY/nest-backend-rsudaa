@@ -36,6 +36,18 @@ model activity {
   @@map("activities")
 }
 
+model article {
+  id        Int      @id @default(autoincrement())
+  articleID String   @unique
+  title     String   @db.VarChar(250)
+  desc      String?  @db.VarChar(1000)
+  images    Json?    @db.Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("articles")
+}
+
 model announcement {
   id             Int      @id @default(autoincrement())
   announcementID String   @unique

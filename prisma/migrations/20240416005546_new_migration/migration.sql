@@ -4,6 +4,8 @@ CREATE TABLE `users` (
     `fullName` VARCHAR(250) NOT NULL,
     `password` VARCHAR(250) NOT NULL,
     `token` VARCHAR(250) NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
 
     UNIQUE INDEX `users_no_wa_key`(`no_wa`),
     PRIMARY KEY (`no_wa`)

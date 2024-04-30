@@ -16,6 +16,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthModule } from './auth/auth.module';
 import { DokterModule } from './dokter/dokter.module';
 import { PoliklinikModule } from './poliklinik/poliklinik.module';
+import { ArticleModule } from './article/article.module';
 
 
 @Module({
@@ -33,6 +34,7 @@ import { PoliklinikModule } from './poliklinik/poliklinik.module';
     AuthModule,
     DokterModule,
     PoliklinikModule,
+    ArticleModule,
   ],
   controllers: [],
   providers: [],

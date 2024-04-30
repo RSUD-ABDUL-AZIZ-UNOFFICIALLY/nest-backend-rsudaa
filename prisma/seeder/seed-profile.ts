@@ -23,7 +23,7 @@ async function main() {
             },
             {
                 name: 'history',
-                desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed orci dignissim, sodales sapien quis, tincidunt est. Phasellus nunc tellus, sollicitudin lobortis nunc ut, tempus feugiat diam. Fusce eu nibh a massa ullamcorper dictum. Donec in accumsan turpis, eu consequat nibh. Maecenas vitae enim ac ipsum cursus imperdiet quis id risus. Nam vestibulum arcu cursus ipsum gravida condimentum. Sed non magna rhoncus purus mattis feugiat. Nullam nunc ipsum, vestibulum sit amet est sed, vehicula euismod elit. Fusce auctor enim ligula, nec convallis ante consequat et. Mauris nec arcu sagittis, luctus nunc eu, sodales ante.',
+                desc: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32',
                 images: null,
             },
             {
@@ -53,6 +53,12 @@ async function main() {
             },
             {
                 name: 'activity',
+                desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed orci dignissim, sodales sapien quis, tincidunt est. Phasellus nunc tellus, sollicitudin lobortis nunc ut, tempus feugiat diam. Fusce eu nibh a massa ullamcorper dictum. Donec in accumsan turpis, eu consequat nibh. Maecenas vitae enim ac ipsum cursus imperdiet quis id risus. Nam vestibulum arcu cursus ipsum gravida condimentum. Sed non magna rhoncus purus mattis feugiat. Nullam nunc ipsum, vestibulum sit amet est sed, vehicula euismod elit. Fusce auctor enim ligula, nec convallis ante consequat et. Mauris nec arcu sagittis, luctus nunc eu, sodales ante.',
+                images: null,
+            },
+
+            {
+                name: 'article',
                 desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed orci dignissim, sodales sapien quis, tincidunt est. Phasellus nunc tellus, sollicitudin lobortis nunc ut, tempus feugiat diam. Fusce eu nibh a massa ullamcorper dictum. Donec in accumsan turpis, eu consequat nibh. Maecenas vitae enim ac ipsum cursus imperdiet quis id risus. Nam vestibulum arcu cursus ipsum gravida condimentum. Sed non magna rhoncus purus mattis feugiat. Nullam nunc ipsum, vestibulum sit amet est sed, vehicula euismod elit. Fusce auctor enim ligula, nec convallis ante consequat et. Mauris nec arcu sagittis, luctus nunc eu, sodales ante.',
                 images: null,
             },
@@ -130,6 +136,56 @@ async function main() {
                 title: 'Aktivitas 3',
                 desc: 'Lorem ipsum dolor sit amet,  a urna. Quisque accumsan lorem urna, eu viverra est varius eget. Morbi id urna tempor, rhoncus mi et, egestas ante. Mauris auctor ',
             },
+            {
+                activityID: randomUUID(),
+                title: 'Aktivitas today',
+                desc: 'Lorem ipsum dolor sit amet,  a urna. Quisque accumsan lorem urna, eu viverra est varius eget. Morbi id urna tempor, rhoncus mi et, egestas ante. Mauris auctor ',
+            },
+            {
+                activityID: randomUUID(),
+                title: 'Aktivitas kemarin',
+                desc: 'Lorem ipsum dolor sit amet,  a urna. Quisque accumsan lorem urna, eu viverra est varius eget. Morbi id urna tempor, rhoncus mi et, egestas ante. Mauris auctor ',
+            },
+        ],
+        skipDuplicates: true,
+    })
+    const article = await prisma.article.createMany({
+        data: [
+            {
+                articleID: randomUUID(),
+                title: 'Artikel 1',
+                desc: 'Fusce vitae nunc id est elementum dapibus ut a urna. Quisque accumsan lorem urna, eu viverra est varius eget. Morbi id urna tempor, rhoncus mi et, egestas ante. Mauris auctor eget felis ut posuere. Pellentesque ultricies volutpat urna, eget ornare lacus euismod et. Sed porta congue lorem, non dapibus lorem malesuada non. Ut a aliquam dui. Etiam sit amet eleifend purus. Suspendisse sem orci, rhoncus fringilla est vitae, egestas auctor velit. Maecenas commodo ultricies sem, congue lobortis lacus scelerisque sed.',
+            },
+            {
+                articleID: randomUUID(),
+                title: 'Artikel 2',
+                desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque commodo ut felis nec tincidunt. Phasellus sed auctor massa. Mauris mattis ultrices quam, ac ultricies ipsum vehicula id. Ut ac consectetur lorem, a feugiat nulla. Fusce vitae nunc id est elementum dapibus ut'
+            },
+            {
+                articleID: randomUUID(),
+                title: 'Artikel 3',
+                desc: 'Lorem ipsum dolor sit amet,  a urna. Quisque accumsan lorem urna, eu viverra est varius eget. Morbi id urna tempor, rhoncus mi et, egestas ante. Mauris auctor ',
+            },
+            {
+                articleID: randomUUID(),
+                title: 'Artikel kesehatan',
+                desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque commodo ut felis nec tincidunt. Phasellus sed auctor massa. Mauris mattis ultrices quam, ac ultricies ipsum vehicula id. Ut ac consectetur lorem, a feugiat nulla. Fusce vitae nunc id est elementum dapibus ut'
+            },
+            {
+                articleID: randomUUID(),
+                title: 'Artikel manajemen',
+                desc: 'Lorem ipsum dolor sit amet,  a urna. Quisque accumsan lorem urna, eu viverra est varius eget. Morbi id urna tempor, rhoncus mi et, egestas ante. Mauris auctor ',
+            },
+            {
+                articleID: randomUUID(),
+                title: 'Artikel gizi',
+                desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque commodo ut felis nec tincidunt. Phasellus sed auctor massa. Mauris mattis ultrices quam, ac ultricies ipsum vehicula id. Ut ac consectetur lorem, a feugiat nulla. Fusce vitae nunc id est elementum dapibus ut'
+            },
+            {
+                articleID: randomUUID(),
+                title: 'Artikel poliklinik',
+                desc: 'Lorem ipsum dolor sit amet,  a urna. Quisque accumsan lorem urna, eu viverra est varius eget. Morbi id urna tempor, rhoncus mi et, egestas ante. Mauris auctor ',
+            },
         ],
         skipDuplicates: true,
     })
@@ -165,7 +221,7 @@ async function main() {
         skipDuplicates: true,
     })
 
-    return { profile, socmed, loker, activity, announcement }
+    return { profile, socmed, loker, activity, announcement, article }
 }
 
 main()

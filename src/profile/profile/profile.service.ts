@@ -4,6 +4,7 @@ import { PrismaService } from 'src/prisma/prisma/prisma.service';
 import { date, z } from "zod";
 import * as mime from 'mime-types';
 import { error } from 'console';
+import { WebResponse } from 'src/model/web.model';
 const ProfileSchema = z.object({
     name: z.string(),
     desc: z.string().optional(),
@@ -16,13 +17,14 @@ export class ProfileService {
         private prismaService: PrismaService
     ) { }
 
-    async findAll() {
+    async findAll(): Promise<WebResponse<profile | any>> {
         try {
             const profile = await this.prismaService.profile.findMany()
 
             return {
                 status: 200,
                 message: 'get data successfully',
+                success: true,
                 data: {
                     length: profile.length,
                     profile: profile
@@ -31,13 +33,14 @@ export class ProfileService {
         } catch (error) {
             return {
                 status: 500,
+                success: false,
                 message: 'get data failed   ',
-                error: error
+                errors: error
             }
         }
     }
 
-    async findOne(name: string): Promise<profile | any> {
+    async findOne(name: string): Promise<WebResponse<profile | any>> {
         try {
 
             const data = await this.prismaService.profile.findUnique({
@@ -48,36 +51,36 @@ export class ProfileService {
 
             if (!data) {
                 return {
-                    status: 200,
+                    success: false,
                     message: 'get data failed',
-                    error: `data with name ${name} not found`
+                    errors: `data with name ${name} not found`
                 }
             }
 
             return {
-                status: 200,
+                success: true,
                 message: 'get data successfully',
                 data: data
             }
         } catch (error) {
             return {
-                status: 500,
+                success: false,
                 message: 'get data failed   ',
-                error: error
+                errors: error
             }
         }
     }
 
-    async save(name: string, desc?: string, images?: Array<Express.Multer.File>): Promise<profile | any> {
+    async save(name: string, desc?: string, images?: Array<Express.Multer.File>): Promise<WebResponse<profile | any>> {
         try {
             if (images) {
                 for (let i = 0; i < images.length; i++) {
                     const mimeType = mime.lookup(images[i].originalname);
                     if (!mimeType || !['image/jpeg', 'image/jpg', 'image/png'].includes(mimeType)) {
                         return {
-                            status: 200,
+                            success: false,
                             message: 'post data failed',
-                            error: 'files must have images extensions [jpg, jpeg, png]'
+                            errors: 'files must have images extensions [jpg, jpeg, png]'
                         }
                     }
                 }
@@ -99,9 +102,9 @@ export class ProfileService {
 
             if (!data) {
                 return {
-                    status: 200,
+                    success: false,
                     message: 'post data failed',
-                    error: {
+                    errors: {
                         path: 'unique',
                         message: `Data with NAME "${data.name}" has been added`
                     }
@@ -124,7 +127,7 @@ export class ProfileService {
             });
 
             return {
-                status: 200,
+                success: true,
                 message: 'create data socmed successfully',
                 data: {
                     data: newProfile
@@ -132,14 +135,14 @@ export class ProfileService {
             }
         } catch (error) {
             return {
-                status: 500,
+                success: false,
                 message: `create data failed`,
-                error: error
+                errors: error
             }
         }
     }
 
-    async update(dataName: string, name?: string, desc?: string, images?: Array<Express.Multer.File>): Promise<profile | any> {
+    async update(dataName: string, name?: string, desc?: string, images?: Array<Express.Multer.File>): Promise<WebResponse<profile | any>> {
         try {
             const data = await this.prismaService.profile.findUnique({
                 where: {
@@ -149,9 +152,9 @@ export class ProfileService {
 
             if (!data) {
                 return {
-                    status: 200,
+                    success: false,
                     message: 'post data failed',
-                    error: `Data with name "${data}" not found`
+                    errors: `Data with name "${data}" not found`
                 }
             }
 
@@ -160,9 +163,9 @@ export class ProfileService {
                     const mimeType = mime.lookup(images[i].originalname);
                     if (!mimeType || !['image/jpeg', 'image/jpg', 'image/png'].includes(mimeType)) {
                         return {
-                            status: 200,
+                            success: false,
                             message: 'post data failed',
-                            error: 'files must have images extensions [jpg, jpeg, png]'
+                            errors: 'files must have images extensions [jpg, jpeg, png]'
                         }
                     }
                 }
@@ -193,20 +196,20 @@ export class ProfileService {
             });
 
             return {
-                status: 200,
+                success: true,
                 message: 'update data successfully',
                 data: updatedActivity
             }
         } catch (error) {
             return {
-                status: 500,
+                success: false,
                 message: `update data failed`,
-                error: error
+                errors: error
             }
         }
     }
 
-    async delete(name: string): Promise<profile | any> {
+    async delete(name: string): Promise<WebResponse<profile | any>> {
         try {
             const dataActivity = await this.prismaService.profile.findUnique({
                 where: {
@@ -216,9 +219,9 @@ export class ProfileService {
 
             if (!dataActivity) {
                 return {
-                    status: 200,
+                    success: false,
                     message: 'delete data failed',
-                    error: `data with ID "${name}" not found`
+                    errors: `data with ID "${name}" not found`
                 }
             }
 
@@ -229,15 +232,15 @@ export class ProfileService {
             });
 
             return {
-                status: 200,
+                success: true,
                 message: 'delete data successfully',
                 data: deleteActivity
             }
         } catch (error) {
             return {
-                status: 500,
+                success: true,
                 message: `delete data failed`,
-                error: error
+                errors: error
             }
         }
     }

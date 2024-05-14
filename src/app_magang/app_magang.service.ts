@@ -1,14 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { applicationLoker } from '@prisma/client';
+import { ConfigService } from '@nestjs/config';
+import { applicationLoker, applicationMagang } from '@prisma/client';
 import { randomUUID, UUID } from 'crypto';
+import { applyMagangRequest } from 'src/model/applyMagang.model';
+import { WebResponse } from 'src/model/web.model';
 import { PrismaService } from 'src/prisma/prisma/prisma.service';
 import { z } from 'zod';
-import * as mime from 'mime-types';
-import { error } from 'console';
-import { applyLokerRequest } from 'src/model/applyLoker.model';
-import { WebResponse } from 'src/model/web.model';
-import axios from 'axios';
-import { ConfigService } from '@nestjs/config';
 
 const appSchema = z.object({
     id: z.string(),
@@ -17,7 +14,7 @@ const appSchema = z.object({
     tanggalLahir: z.string(),
     nik: z.string(),
     no_wa: z.string(),
-    lokerId: z.string(),
+    magangId: z.string(),
     sekolah: z.string(),
     jurusan: z.string(),
     jenjang: z.string(),
@@ -26,9 +23,8 @@ const appSchema = z.object({
     fileApply: z.string(),
     fileOther: z.string().optional()
 })
-
 @Injectable()
-export class AppLokerService {
+export class AppMagangService {
     constructor(
         private prismaService: PrismaService,
         private configService: ConfigService
@@ -36,7 +32,7 @@ export class AppLokerService {
 
     async findAll() {
         try {
-            const data = await this.prismaService.applicationLoker.findMany()
+            const data = await this.prismaService.applicationMagang.findMany()
 
             return {
                 status: 200,
@@ -56,12 +52,12 @@ export class AppLokerService {
 
     async findOne(
         id: UUID
-    ): Promise<applicationLoker | any> {
+    ): Promise<applicationMagang | any> {
         try {
-            const data = await this.prismaService.applicationLoker.findUnique({
+            const data = await this.prismaService.applicationMagang.findUnique({
                 where: { id: id },
                 include: {
-                    loker: true
+                    magang: true
                 }
             })
 
@@ -81,10 +77,11 @@ export class AppLokerService {
         }
     }
 
-    async post(req: applyLokerRequest): Promise<WebResponse<applicationLoker | any>> {
+    async post(req: applyMagangRequest): Promise<WebResponse<applicationMagang | any>> {
+
         try {
             const id = randomUUID()
-            let { address, email, fullName, tanggalLahir, jenjang, jurusan, lokerId, nik, no_wa, sekolah, fileResume, fileApply, fileOther } = req
+            let { address, email, fullName, tanggalLahir, jenjang, jurusan, magangId, nik, no_wa, sekolah, fileResume, fileApply, fileOther } = req
             // let { fileApply, fileResume, fileOther } = files
             const validation = appSchema.parse({
                 id: id,
@@ -94,7 +91,7 @@ export class AppLokerService {
                 address: address,
                 jenjang: jenjang,
                 jurusan: jurusan,
-                lokerId: lokerId,
+                magangId: magangId,
                 nik: nik,
                 no_wa: no_wa,
                 sekolah: sekolah,
@@ -109,7 +106,7 @@ export class AppLokerService {
             // const dataLoker = await this.prismaService.loker.findUnique({
             //     where: { id: validation.lokerId },
             //     include: {
-            //         applicationLoker: {
+            //         applicationMagang: {
             //             where: {
             //                 email: validation.email
             //             }
@@ -124,7 +121,7 @@ export class AppLokerService {
             //         errors: `data loker not found, please select loker`
             //     }
             // } else {
-            //     if (dataLoker.applicationLoker.length > 0) {
+            //     if (dataLoker.applicationMagang.length > 0) {
             //         return {
             //             status: 500,
             //             message: `post data failed`,
@@ -136,7 +133,7 @@ export class AppLokerService {
             //     }
             // }
 
-            const create = await this.prismaService.applicationLoker.create({
+            const create = await this.prismaService.applicationMagang.create({
                 data: {
                     id: validation.id,
                     tanggalLahir: bornDay,
@@ -144,7 +141,7 @@ export class AppLokerService {
                     nik: validation.nik,
                     email: validation.email,
                     fullName: validation.fullName,
-                    lokerId: validation.lokerId,
+                    magangId: validation.magangId,
                     sekolah: validation.sekolah,
                     jurusan: validation.jurusan,
                     jenjang: validation.jenjang,

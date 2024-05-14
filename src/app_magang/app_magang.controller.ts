@@ -1,16 +1,14 @@
-import { Body, Controller, Get, HttpStatus, Param, ParseFilePipeBuilder, Post, UploadedFile, UploadedFiles, UseInterceptors } from '@nestjs/common';
-import { AppLokerService } from './app_loker.service';
-import { applicationLoker, user } from '@prisma/client';
-import { UUID } from 'crypto';
-import { FileFieldsInterceptor, FileInterceptor, NoFilesInterceptor } from '@nestjs/platform-express';
-import { Auth } from 'src/cummon/auth.decorator';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { AppMagangService } from './app_magang.service';
 import { applyLokerRequest, applyLokerResponse } from 'src/model/applyLoker.model';
 import { WebResponse } from 'src/model/web.model';
+import { UUID } from 'crypto';
+import { applyMagangRequest } from 'src/model/applyMagang.model';
 
-@Controller('/api/app-loker')
-export class AppLokerController {
+@Controller('/api/app-magang')
+export class AppMagangController {
     constructor(
-        private appLokerService: AppLokerService
+        private appLokerService: AppMagangService
     ) { }
 
     @Get()
@@ -32,7 +30,7 @@ export class AppLokerController {
     //     { name: 'fileOther', maxCount: 1 },
     // ]))
     post(
-        @Body() req: applyLokerRequest,
+        @Body() req: applyMagangRequest,
         // @UploadedFiles(
         //     new ParseFilePipeBuilder()
         //         .build({

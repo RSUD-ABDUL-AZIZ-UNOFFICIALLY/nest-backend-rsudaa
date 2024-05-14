@@ -3,13 +3,15 @@ import { loker } from '@prisma/client';
 import { randomUUID, UUID } from 'crypto';
 import { PrismaService } from 'src/prisma/prisma/prisma.service';
 import { z } from "zod";
+import { WebResponse } from '../../model/web.model';
+import { LokerCreateRequest } from 'src/model/loker.model';
 
 const lokerSchema = z.object({
     id: z.string(),
     name: z.string().max(100),
     desc: z.string().max(1000).optional(),
-    dateStart: z.date().optional(),
-    dateEnd: z.date().optional(),
+    dateStart: z.string().optional(),
+    dateEnd: z.string().optional(),
 })
 
 @Injectable()
@@ -18,42 +20,65 @@ export class LokerService {
         private prismaService: PrismaService,
     ) { }
 
-    async findAll(): Promise<loker | any> {
+    async findAll(id?: string): Promise<WebResponse<loker | any>> {
         try {
-            const data = await this.prismaService.loker.findMany(
+
+            let data: loker[] | loker = await this.prismaService.loker.findMany(
                 {
                     include: {
                         applicationLoker: true
+                    },
+                    orderBy: {
+                        createdAt: 'desc'
                     }
                 }
             )
 
+            if (id) {
+                data = await this.prismaService.loker.findFirst(
+                    {
+                        where: { id: id },
+                        include: {
+                            applicationLoker: true
+                        },
+                        orderBy: {
+                            createdAt: 'desc'
+                        }
+                    }
+                )
+            }
+
             return {
-                status: 200,
+                success: true,
                 message: 'get data successfully',
                 data: data
             }
         } catch (error) {
             return {
-                status: 500,
+                success: false,
                 message: 'get data failed',
-                error: error
+                errors: error
             }
         }
     }
 
     async post(
-        name: string,
-        desc?: string,
-        dateStart?: z.ZodDate,
-        dateEnd?: z.ZodDate
+        req: LokerCreateRequest
     ): Promise<loker | any> {
         try {
             const id = randomUUID()
 
+            const { name, desc, dateEnd, dateStart } = req
+
             const validation = lokerSchema.parse({
-                id, name, desc, dateStart, dateEnd
+                id: id,
+                name: name,
+                desc: desc,
+                dateStart: dateStart,
+                dateEnd: dateEnd
             })
+
+            console.log('val', validation);
 
 
             const createLoker = await this.prismaService.loker.create({

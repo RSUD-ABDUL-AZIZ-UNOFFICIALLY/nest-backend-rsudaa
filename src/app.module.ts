@@ -17,6 +17,7 @@ import { AuthModule } from './auth/auth.module';
 import { DokterModule } from './dokter/dokter.module';
 import { PoliklinikModule } from './poliklinik/poliklinik.module';
 import { ArticleModule } from './article/article.module';
+import { AppMagangModule } from './app_magang/app_magang.module';
 
 
 @Module({
@@ -35,6 +36,7 @@ import { ArticleModule } from './article/article.module';
     DokterModule,
     PoliklinikModule,
     ArticleModule,
+    AppMagangModule,
   ],
   controllers: [],
   providers: [],

@@ -1,9 +1,10 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { LokerService } from './loker.service';
 import { loker, user } from '@prisma/client';
 import { z } from "zod";
 import { UUID } from 'crypto';
 import { Auth } from 'src/cummon/auth.decorator';
+import { LokerCreateRequest } from 'src/model/loker.model';
 @Controller('/api/loker')
 export class LokerController {
     constructor(
@@ -11,18 +12,17 @@ export class LokerController {
     ) { }
 
     @Get()
-    getAll(): Promise<loker | any> {
-        return this.lokerService.findAll()
+    getAll(
+        @Query('id') id: string
+    ): Promise<loker | any> {
+        return this.lokerService.findAll(id)
     }
 
     @Post('/post')
     post(
-        @Body('name') name: string,
-        @Body('desc') desc?: string,
-        @Body('dateStart') dateStart?: z.ZodDate,
-        @Body('dateEnd') dateEnd?: z.ZodDate
+        @Body() req: LokerCreateRequest
     ): Promise<loker | any> {
-        return this.lokerService.post(name, desc, dateStart, dateEnd)
+        return this.lokerService.post(req)
     }
 
     @Post('/update/:id')

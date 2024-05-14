@@ -93,15 +93,13 @@ export class AuthService {
         )
 
 
-        // console.log('login', user);
-
-        // if (!user) {
-        //     // throw new UnauthorizedException();
-        //     throw new HttpException({
-        //         success: false,
-        //         message: `account is not registered`
-        //     }, HttpStatus.FORBIDDEN)
-        // }
+        if (!user) {
+            // throw new UnauthorizedException();
+            throw new HttpException({
+                success: false,
+                message: `account is not registered`
+            }, HttpStatus.FORBIDDEN)
+        }
 
         let token = ''
 

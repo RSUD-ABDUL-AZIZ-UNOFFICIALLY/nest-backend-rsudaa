@@ -85,8 +85,8 @@ model loker {
   id               String             @id @unique
   name             String             @db.VarChar(250)
   desc             String?            @db.VarChar(1000)
-  dateStart        DateTime?          @db.DateTime()
-  dateEnd          DateTime?          @db.DateTime()
+  dateStart        String?            @db.VarChar(250)
+  dateEnd          String?            @db.VarChar(250)
   createdAt        DateTime           @default(now())
   updatedAt        DateTime           @updatedAt
   applicationLoker applicationLoker[]
@@ -98,8 +98,8 @@ model magang {
   id                String              @id @unique
   name              String              @db.VarChar(250)
   desc              String?             @db.VarChar(1000)
-  dateStart         DateTime?           @db.DateTime()
-  dateEnd           DateTime?           @db.DateTime()
+  dateStart         String?             @db.VarChar(250)
+  dateEnd           String?             @db.VarChar(250)
   createdAt         DateTime            @default(now())
   updatedAt         DateTime            @updatedAt
   applicationMagang applicationMagang[]
@@ -108,37 +108,45 @@ model magang {
 }
 
 model applicationLoker {
-  id         String   @id @unique
-  email      String   @db.VarChar(100)
-  fullName   String   @db.VarChar(250)
-  loker      loker    @relation(fields: [lokerId], references: [id])
-  lokerId    String
-  sekolah    String   @db.VarChar(500)
-  jurusan    String   @db.VarChar(500)
-  jenjang    String   @db.VarChar(100)
-  address    String   @db.VarChar(1000)
-  fileResume String   @db.VarChar(500)
-  fileApply  String   @db.VarChar(500)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id           String   @id @unique
+  nik          String   @db.VarChar(100)
+  no_wa        String   @db.VarChar(100)
+  email        String   @db.VarChar(100)
+  fullName     String   @db.VarChar(250)
+  tanggalLahir DateTime @db.Date
+  loker        loker    @relation(fields: [lokerId], references: [id])
+  lokerId      String
+  sekolah      String   @db.VarChar(500)
+  jurusan      String   @db.VarChar(500)
+  jenjang      String   @db.VarChar(100)
+  address      String   @db.VarChar(1000)
+  fileResume   String?  @db.VarChar(500)
+  fileApply    String?  @db.VarChar(500)
+  fileOther    String?  @db.VarChar(500)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   @@map("applicationLokers")
 }
 
 model applicationMagang {
-  id         String   @id @unique
-  email      String   @db.VarChar(100)
-  fullName   String   @db.VarChar(250)
-  magang     magang   @relation(fields: [magangId], references: [id])
-  magangId   String
-  sekolah    String   @db.VarChar(500)
-  jurusan    String   @db.VarChar(500)
-  jenjang    String   @db.VarChar(100)
-  address    String   @db.VarChar(1000)
-  fileResume String   @db.VarChar(500)
-  fileApply  String   @db.VarChar(500)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id           String   @id @unique
+  nik          String   @db.VarChar(100)
+  no_wa        String   @db.VarChar(100)
+  email        String   @db.VarChar(100)
+  fullName     String   @db.VarChar(250)
+  tanggalLahir DateTime @db.Date
+  magang       magang   @relation(fields: [magangId], references: [id])
+  magangId     String
+  sekolah      String   @db.VarChar(500)
+  jurusan      String   @db.VarChar(500)
+  jenjang      String   @db.VarChar(100)
+  address      String   @db.VarChar(1000)
+  fileResume   String?  @db.VarChar(500)
+  fileApply    String?  @db.VarChar(500)
+  fileOther    String?  @db.VarChar(500)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   @@map("applicationMagangs")
 }

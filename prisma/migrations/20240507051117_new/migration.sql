@@ -26,6 +26,20 @@ CREATE TABLE `activities` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
+CREATE TABLE `articles` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `articleID` VARCHAR(191) NOT NULL,
+    `title` VARCHAR(250) NOT NULL,
+    `desc` VARCHAR(1000) NULL,
+    `images` JSON NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
+
+    UNIQUE INDEX `articles_articleID_key`(`articleID`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `announcements` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `announcementID` VARCHAR(191) NOT NULL,
@@ -69,8 +83,8 @@ CREATE TABLE `lokers` (
     `id` VARCHAR(191) NOT NULL,
     `name` VARCHAR(250) NOT NULL,
     `desc` VARCHAR(1000) NULL,
-    `dateStart` DATETIME NULL,
-    `dateEnd` DATETIME NULL,
+    `dateStart` VARCHAR(250) NULL,
+    `dateEnd` VARCHAR(250) NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
@@ -83,8 +97,8 @@ CREATE TABLE `magangs` (
     `id` VARCHAR(191) NOT NULL,
     `name` VARCHAR(250) NOT NULL,
     `desc` VARCHAR(1000) NULL,
-    `dateStart` DATETIME NULL,
-    `dateEnd` DATETIME NULL,
+    `dateStart` VARCHAR(250) NULL,
+    `dateEnd` VARCHAR(250) NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
@@ -95,6 +109,8 @@ CREATE TABLE `magangs` (
 -- CreateTable
 CREATE TABLE `applicationLokers` (
     `id` VARCHAR(191) NOT NULL,
+    `nik` VARCHAR(100) NOT NULL,
+    `no_wa` VARCHAR(100) NOT NULL,
     `email` VARCHAR(100) NOT NULL,
     `fullName` VARCHAR(250) NOT NULL,
     `lokerId` VARCHAR(191) NOT NULL,
@@ -104,6 +120,7 @@ CREATE TABLE `applicationLokers` (
     `address` VARCHAR(1000) NOT NULL,
     `fileResume` VARCHAR(500) NOT NULL,
     `fileApply` VARCHAR(500) NOT NULL,
+    `fileOther` VARCHAR(500) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
@@ -114,6 +131,8 @@ CREATE TABLE `applicationLokers` (
 -- CreateTable
 CREATE TABLE `applicationMagangs` (
     `id` VARCHAR(191) NOT NULL,
+    `nik` VARCHAR(100) NOT NULL,
+    `no_wa` VARCHAR(100) NOT NULL,
     `email` VARCHAR(100) NOT NULL,
     `fullName` VARCHAR(250) NOT NULL,
     `magangId` VARCHAR(191) NOT NULL,
@@ -123,6 +142,7 @@ CREATE TABLE `applicationMagangs` (
     `address` VARCHAR(1000) NOT NULL,
     `fileResume` VARCHAR(500) NOT NULL,
     `fileApply` VARCHAR(500) NOT NULL,
+    `fileOther` VARCHAR(500) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 

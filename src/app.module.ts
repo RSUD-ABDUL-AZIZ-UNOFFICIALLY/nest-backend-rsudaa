@@ -18,6 +18,8 @@ import { DokterModule } from './dokter/dokter.module';
 import { PoliklinikModule } from './poliklinik/poliklinik.module';
 import { ArticleModule } from './article/article.module';
 import { AppMagangModule } from './app_magang/app_magang.module';
+import { LaporanTahunanModule } from './laporan-tahunan/laporan-tahunan.module';
+import { FileLaporanTahunanModule } from './file-laporan-tahunan/file-laporan-tahunan.module';
 
 
 @Module({
@@ -37,6 +39,8 @@ import { AppMagangModule } from './app_magang/app_magang.module';
     PoliklinikModule,
     ArticleModule,
     AppMagangModule,
+    LaporanTahunanModule,
+    FileLaporanTahunanModule,
   ],
   controllers: [],
   providers: [],

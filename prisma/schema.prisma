@@ -150,3 +150,25 @@ model applicationMagang {
 
   @@map("applicationMagangs")
 }
+
+model laporanTahunan {
+  name               String               @id @unique
+  desc               String?              @db.VarChar(1000)
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  fileLaporanTahunan fileLaporanTahunan[]
+
+  @@map("laporanTahunan")
+}
+
+model fileLaporanTahunan {
+  tahun              String         @id @unique
+  laporanTahunan     laporanTahunan @relation(fields: [laporanTahunanName], references: [name])
+  laporanTahunanName String
+  file               String         @db.VarChar(1000)
+  desc               String?        @db.VarChar(1000)
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+
+  @@map("fileLaporanTahunan")
+}

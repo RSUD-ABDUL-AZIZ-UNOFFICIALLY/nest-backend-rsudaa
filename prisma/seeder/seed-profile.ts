@@ -37,6 +37,11 @@ async function main() {
                 images: null,
             },
             {
+                name: 'struktur-organisasi-image',
+                desc: 'https://blog-cdn.kitalulus.com/blog/wp-content/uploads/2024/02/26172231/65d57982bfa1b95ed19da4bb_struktur-organisasi-perusahaan-kecil-scaled.jpg',
+                images: null,
+            },
+            {
                 name: 'struktur-manajemen',
                 desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed orci dignissim, sodales sapien quis, tincidunt est. Phasellus nunc tellus, sollicitudin lobortis nunc ut, tempus feugiat diam. Fusce eu nibh a massa ullamcorper dictum. Donec in accumsan turpis, eu consequat nibh. Maecenas vitae enim ac ipsum cursus imperdiet quis id risus. Nam vestibulum arcu cursus ipsum gravida condimentum. Sed non magna rhoncus purus mattis feugiat. Nullam nunc ipsum, vestibulum sit amet est sed, vehicula euismod elit. Fusce auctor enim ligula, nec convallis ante consequat et. Mauris nec arcu sagittis, luctus nunc eu, sodales ante.',
                 images: null,
@@ -82,6 +87,44 @@ async function main() {
                 desc: 'https://online.rsudaa.singkawangkota.go.id/',
                 images: null,
             },
+            {
+                name: 'skm',
+                desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed orci dignissim, sodales sapien quis, tincidunt est. Phasellus nunc tellus, sollicitudin lobortis nunc ut, tempus feugiat diam. Fusce eu nibh a massa ullamcorper dictum. Donec in accumsan turpis, eu consequat nibh. Maecenas vitae enim ac ipsum cursus imperdiet quis id risus. Nam vestibulum arcu cursus ipsum gravida condimentum. Sed non magna rhoncus purus mattis feugiat. Nullam nunc ipsum, vestibulum sit amet est sed, vehicula euismod elit. Fusce auctor enim ligula, nec convallis ante consequat et. Mauris nec arcu sagittis, luctus nunc eu, sodales ante.',
+                images: null,
+            },
+            {
+                name: 'skmLink',
+                desc: 'https://rsudaa.singkawangkota.go.id/survei/',
+                images: null,
+            },
+            {
+                name: 'nameDirektur',
+                desc: 'Dr Alexandre',
+            },
+            {
+                name: 'nameDirektur',
+                desc: 'Dr Alexandre',
+            },
+            {
+                name: 'signDirektur',
+                desc: 'https://upload.wikimedia.org/wikipedia/commons/6/6e/Tanda_Tangan_Mick_Schumacher.png',
+            },
+            {
+                name: 'nameDirektur',
+                desc: 'Dr Alexandre',
+            },
+            {
+                name: 'signDirektur',
+                desc: 'https://upload.wikimedia.org/wikipedia/commons/6/6e/Tanda_Tangan_Mick_Schumacher.png',
+            },
+            {
+                name: 'layananInformasi',
+                desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed orci dignissim, sodales sapien quis, tincidunt est. Phasellus nunc tellus, sollicitudin lobortis nunc ut, tempus feugiat diam. Fusce eu nibh a massa ullamcorper dictum. Donec in accumsan turpis, eu consequat nibh. Maecenas vitae enim ac ipsum cursus imperdiet quis id risus. Nam vestibulum arcu cursus ipsum gravida condimentum. Sed non magna rhoncus purus mattis feugiat. Nullam nunc ipsum, vestibulum sit amet est sed, vehicula euismod elit. Fusce auctor enim ligula, nec convallis ante consequat et. Mauris nec arcu sagittis, luctus nunc eu, sodales ante.',
+            },
+            {
+                name: 'layananInformasi-image',
+                desc: 'https://www.infopublik.id/assets/upload/headline//20180511111300.jpg',
+            },
         ],
         skipDuplicates: true,
     })
@@ -104,6 +147,30 @@ async function main() {
             {
                 name: 'email',
                 link: 'https://google.com'
+            },
+        ],
+        skipDuplicates: true,
+    })
+
+    const laporanTahunan = await prisma.laporanTahunan.createMany({
+        data: [
+            {
+                name: 'perjankin',
+            },
+            {
+                name: 'renaksi',
+            },
+            {
+                name: 'renja',
+            },
+            {
+                name: 'ikt',
+            },
+            {
+                name: 'hasil survei',
+            },
+            {
+                name: 'hasil ikm',
             },
         ],
         skipDuplicates: true,
@@ -264,7 +331,9 @@ async function main() {
         skipDuplicates: true,
     })
 
-    return { profile, socmed, loker, magang, activity, announcement, article }
+
+
+    return { profile, socmed, loker, magang, activity, announcement, article, laporanTahunan }
 }
 
 main()

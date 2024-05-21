@@ -162,7 +162,7 @@ model laporanTahunan {
 }
 
 model fileLaporanTahunan {
-  tahun              String         @id @unique
+  tahun              Int            @id @unique
   laporanTahunan     laporanTahunan @relation(fields: [laporanTahunanName], references: [name])
   laporanTahunanName String
   file               String         @db.VarChar(1000)

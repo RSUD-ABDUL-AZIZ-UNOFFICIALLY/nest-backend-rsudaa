@@ -129,7 +129,6 @@ async function main() {
         skipDuplicates: true,
     })
 
-
     const socmed = await prisma.socmed.createMany({
         data: [
             {
@@ -147,6 +146,42 @@ async function main() {
             {
                 name: 'email',
                 link: 'https://google.com'
+            },
+        ],
+        skipDuplicates: true,
+    })
+
+    const aplikasi = await prisma.linkAplikasi.createMany({
+        data: [
+            {
+                name: 'WBS',
+                link: 'https://wbs.singkawangkota.go.id/#/'
+            },
+            {
+                name: 'SP4N LAPOR',
+                link: 'https://www.lapor.go.id/'
+            },
+            {
+                name: 'SIPPN',
+                link: 'https://sippn.menpan.go.id/instansi/154940/pemerintah-kota-singkawang/rsud-dr-abdul-aziz'
+            },
+        ],
+        skipDuplicates: true,
+    })
+
+    const dasarHukum = await prisma.dasarHukum.createMany({
+        data: [
+            {
+                name: 'Undang - Undang',
+            },
+            {
+                name: 'Peraturan Pemerintah',
+            },
+            {
+                name: 'Peraturan Daerah',
+            },
+            {
+                name: 'SK Standar Pelayanan Publik',
             },
         ],
         skipDuplicates: true,
@@ -333,7 +368,7 @@ async function main() {
 
 
 
-    return { profile, socmed, loker, magang, activity, announcement, article, laporanTahunan }
+    return { profile, socmed, loker, magang, activity, announcement, article, laporanTahunan, aplikasi, dasarHukum }
 }
 
 main()

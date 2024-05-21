@@ -13,7 +13,7 @@ export class fileLaporanTahunanResponse {
 export class fileLaporanTahunanRequest {
     tahun: number
     laporanTahunanName: string
-    file: string
+    file?: string
     desc?: string
 }
 

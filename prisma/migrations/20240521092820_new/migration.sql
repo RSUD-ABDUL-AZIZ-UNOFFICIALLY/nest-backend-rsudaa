@@ -113,14 +113,15 @@ CREATE TABLE `applicationLokers` (
     `no_wa` VARCHAR(100) NOT NULL,
     `email` VARCHAR(100) NOT NULL,
     `fullName` VARCHAR(250) NOT NULL,
+    `tanggalLahir` DATE NOT NULL,
     `lokerId` VARCHAR(191) NOT NULL,
     `sekolah` VARCHAR(500) NOT NULL,
     `jurusan` VARCHAR(500) NOT NULL,
     `jenjang` VARCHAR(100) NOT NULL,
     `address` VARCHAR(1000) NOT NULL,
-    `fileResume` VARCHAR(500) NOT NULL,
-    `fileApply` VARCHAR(500) NOT NULL,
-    `fileOther` VARCHAR(500) NOT NULL,
+    `fileResume` VARCHAR(500) NULL,
+    `fileApply` VARCHAR(500) NULL,
+    `fileOther` VARCHAR(500) NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
@@ -135,14 +136,15 @@ CREATE TABLE `applicationMagangs` (
     `no_wa` VARCHAR(100) NOT NULL,
     `email` VARCHAR(100) NOT NULL,
     `fullName` VARCHAR(250) NOT NULL,
+    `tanggalLahir` DATE NOT NULL,
     `magangId` VARCHAR(191) NOT NULL,
     `sekolah` VARCHAR(500) NOT NULL,
     `jurusan` VARCHAR(500) NOT NULL,
     `jenjang` VARCHAR(100) NOT NULL,
     `address` VARCHAR(1000) NOT NULL,
-    `fileResume` VARCHAR(500) NOT NULL,
-    `fileApply` VARCHAR(500) NOT NULL,
-    `fileOther` VARCHAR(500) NOT NULL,
+    `fileResume` VARCHAR(500) NULL,
+    `fileApply` VARCHAR(500) NULL,
+    `fileOther` VARCHAR(500) NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
@@ -150,8 +152,57 @@ CREATE TABLE `applicationMagangs` (
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+-- CreateTable
+CREATE TABLE `laporanTahunan` (
+    `name` VARCHAR(191) NOT NULL,
+    `desc` VARCHAR(1000) NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
+
+    UNIQUE INDEX `laporanTahunan_name_key`(`name`),
+    PRIMARY KEY (`name`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `fileLaporanTahunan` (
+    `tahun` INTEGER NOT NULL,
+    `laporanTahunanName` VARCHAR(191) NOT NULL,
+    `file` VARCHAR(1000) NOT NULL,
+    `desc` VARCHAR(1000) NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
+
+    UNIQUE INDEX `fileLaporanTahunan_tahun_key`(`tahun`),
+    PRIMARY KEY (`tahun`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `linkAplikasi` (
+    `name` VARCHAR(100) NOT NULL,
+    `link` VARCHAR(1000) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
+
+    UNIQUE INDEX `linkAplikasi_name_key`(`name`),
+    PRIMARY KEY (`name`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `dasarHukum` (
+    `name` VARCHAR(100) NOT NULL,
+    `file` VARCHAR(1000) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
+
+    UNIQUE INDEX `dasarHukum_name_key`(`name`),
+    PRIMARY KEY (`name`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 -- AddForeignKey
 ALTER TABLE `applicationLokers` ADD CONSTRAINT `applicationLokers_lokerId_fkey` FOREIGN KEY (`lokerId`) REFERENCES `lokers`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `applicationMagangs` ADD CONSTRAINT `applicationMagangs_magangId_fkey` FOREIGN KEY (`magangId`) REFERENCES `magangs`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `fileLaporanTahunan` ADD CONSTRAINT `fileLaporanTahunan_laporanTahunanName_fkey` FOREIGN KEY (`laporanTahunanName`) REFERENCES `laporanTahunan`(`name`) ON DELETE RESTRICT ON UPDATE CASCADE;

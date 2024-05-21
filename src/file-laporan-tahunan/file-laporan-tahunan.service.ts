@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { fileLaporanTahunan } from '@prisma/client';
+import { fileLaporanTahunanRequest } from 'src/model/fileLaporanTahunan.model';
 import { WebResponse } from 'src/model/web.model';
 import { PrismaService } from 'src/prisma/prisma/prisma.service';
 
@@ -30,5 +31,13 @@ export class FileLaporanTahunanService {
         }
     }
 
-    async 
+    async post(req: fileLaporanTahunanRequest, file: Express.Multer.File): Promise<WebResponse<fileLaporanTahunan>> {
+        let { tahun, laporanTahunanName, desc } = req
+        
+        
+
+        return {
+
+        }
+    }
 }

@@ -162,7 +162,8 @@ model laporanTahunan {
 }
 
 model fileLaporanTahunan {
-  tahun              Int            @id @unique
+  id                 String         @id @unique @db.VarChar(250)
+  tahun              Int            @db.Int
   laporanTahunan     laporanTahunan @relation(fields: [laporanTahunanName], references: [name])
   laporanTahunanName String
   file               String         @db.VarChar(1000)
@@ -171,4 +172,22 @@ model fileLaporanTahunan {
   updatedAt          DateTime       @updatedAt
 
   @@map("fileLaporanTahunan")
+}
+
+model linkAplikasi {
+  name      String   @id @unique @db.VarChar(100)
+  link      String   @db.VarChar(1000)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("linkAplikasi")
+}
+
+model dasarHukum {
+  name      String   @id @unique @db.VarChar(100)
+  file      String?  @db.VarChar(1000)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("dasarHukum")
 }

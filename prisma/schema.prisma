@@ -175,7 +175,8 @@ model fileLaporanTahunan {
 }
 
 model linkAplikasi {
-  name      String   @id @unique @db.VarChar(100)
+  id        String   @id @unique @db.VarChar(250)
+  name      String   @db.VarChar(250)
   link      String   @db.VarChar(1000)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -184,7 +185,8 @@ model linkAplikasi {
 }
 
 model dasarHukum {
-  name      String   @id @unique @db.VarChar(100)
+  id        String   @id @unique @db.VarChar(250)
+  name      String   @db.VarChar(250)
   file      String?  @db.VarChar(1000)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

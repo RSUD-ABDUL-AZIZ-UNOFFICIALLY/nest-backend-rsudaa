@@ -165,6 +165,7 @@ CREATE TABLE `laporanTahunan` (
 
 -- CreateTable
 CREATE TABLE `fileLaporanTahunan` (
+    `id` VARCHAR(250) NOT NULL,
     `tahun` INTEGER NOT NULL,
     `laporanTahunanName` VARCHAR(191) NOT NULL,
     `file` VARCHAR(1000) NOT NULL,
@@ -172,30 +173,32 @@ CREATE TABLE `fileLaporanTahunan` (
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
-    UNIQUE INDEX `fileLaporanTahunan_tahun_key`(`tahun`),
-    PRIMARY KEY (`tahun`)
+    UNIQUE INDEX `fileLaporanTahunan_id_key`(`id`),
+    PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `linkAplikasi` (
-    `name` VARCHAR(100) NOT NULL,
+    `id` VARCHAR(250) NOT NULL,
+    `name` VARCHAR(250) NOT NULL,
     `link` VARCHAR(1000) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
-    UNIQUE INDEX `linkAplikasi_name_key`(`name`),
-    PRIMARY KEY (`name`)
+    UNIQUE INDEX `linkAplikasi_id_key`(`id`),
+    PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `dasarHukum` (
-    `name` VARCHAR(100) NOT NULL,
-    `file` VARCHAR(1000) NOT NULL,
+    `id` VARCHAR(250) NOT NULL,
+    `name` VARCHAR(250) NOT NULL,
+    `file` VARCHAR(1000) NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
-    UNIQUE INDEX `dasarHukum_name_key`(`name`),
-    PRIMARY KEY (`name`)
+    UNIQUE INDEX `dasarHukum_id_key`(`id`),
+    PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey

@@ -22,6 +22,7 @@ export class MagangController {
 
     @Post('/post')
     post(
+        @Auth() user: user,
         @Body() req: MagangCreateRequest
     ): Promise<loker | any> {
         return this.magangService.post(req)
@@ -29,6 +30,7 @@ export class MagangController {
 
     @Post('/update/:id')
     update(
+        @Auth() user: user,
         @Param('id') id: UUID,
         @Body('name') name?: string,
         @Body('desc') desc?: string,

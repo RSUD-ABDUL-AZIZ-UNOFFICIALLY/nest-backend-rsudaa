@@ -20,6 +20,7 @@ export class LokerController {
 
     @Post('/post')
     post(
+        @Auth() user: user,
         @Body() req: LokerCreateRequest
     ): Promise<loker | any> {
         return this.lokerService.post(req)
@@ -27,6 +28,7 @@ export class LokerController {
 
     @Post('/update/:id')
     update(
+        @Auth() user: user,
         @Param('id') id: UUID,
         @Body('name') name?: string,
         @Body('desc') desc?: string,

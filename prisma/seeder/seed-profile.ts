@@ -4,6 +4,16 @@ import { randomUUID } from "crypto";
 const prisma = new PrismaClient()
 
 async function main() {
+    const user = await prisma.user.createMany({
+        data: [
+            {
+                fullName: 'Amirull Azmi',
+                no_wa: '08994627432',
+                password: '12345'
+            }
+        ]
+    })
+
     const profile = await prisma.profile.createMany({
         data: [
             {
@@ -154,14 +164,17 @@ async function main() {
     const aplikasi = await prisma.linkAplikasi.createMany({
         data: [
             {
+                id: randomUUID(),
                 name: 'WBS',
                 link: 'https://wbs.singkawangkota.go.id/#/'
             },
             {
+                id: randomUUID(),
                 name: 'SP4N LAPOR',
                 link: 'https://www.lapor.go.id/'
             },
             {
+                id: randomUUID(),
                 name: 'SIPPN',
                 link: 'https://sippn.menpan.go.id/instansi/154940/pemerintah-kota-singkawang/rsud-dr-abdul-aziz'
             },
@@ -172,15 +185,19 @@ async function main() {
     const dasarHukum = await prisma.dasarHukum.createMany({
         data: [
             {
+                id: randomUUID(),
                 name: 'Undang - Undang',
             },
             {
+                id: randomUUID(),
                 name: 'Peraturan Pemerintah',
             },
             {
+                id: randomUUID(),
                 name: 'Peraturan Daerah',
             },
             {
+                id: randomUUID(),
                 name: 'SK Standar Pelayanan Publik',
             },
         ],
@@ -368,7 +385,7 @@ async function main() {
 
 
 
-    return { profile, socmed, loker, magang, activity, announcement, article, laporanTahunan, aplikasi, dasarHukum }
+    return { profile, socmed, loker, magang, activity, announcement, article, laporanTahunan, aplikasi, dasarHukum, user }
 }
 
 main()

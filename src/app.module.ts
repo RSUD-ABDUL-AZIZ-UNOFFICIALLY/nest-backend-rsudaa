@@ -21,6 +21,7 @@ import { AppMagangModule } from './app_magang/app_magang.module';
 import { LaporanTahunanModule } from './laporan-tahunan/laporan-tahunan.module';
 import { FileLaporanTahunanModule } from './file-laporan-tahunan/file-laporan-tahunan.module';
 import { LinkAplikasiModule } from './link-aplikasi/link-aplikasi.module';
+import { DasarHukumModule } from './dasar-hukum/dasar-hukum.module';
 
 
 @Module({
@@ -43,6 +44,7 @@ import { LinkAplikasiModule } from './link-aplikasi/link-aplikasi.module';
     LaporanTahunanModule,
     FileLaporanTahunanModule,
     LinkAplikasiModule,
+    DasarHukumModule,
   ],
   controllers: [],
   providers: [],

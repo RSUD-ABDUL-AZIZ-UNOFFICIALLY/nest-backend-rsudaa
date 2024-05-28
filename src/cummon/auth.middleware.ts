@@ -18,6 +18,9 @@ export class AuthMidlleware implements NestMiddleware {
                 }
             })
 
+            console.log(token);
+
+
             if (user) {
                 req.user = user
             }

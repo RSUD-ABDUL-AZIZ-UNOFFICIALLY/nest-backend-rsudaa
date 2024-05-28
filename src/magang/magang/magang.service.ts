@@ -158,7 +158,7 @@ export class MagangService {
         }
     }
 
-    async delete(id: UUID): Promise<magang | any> {
+    async delete(id: UUID): Promise<WebResponse<magang | any>> {
         try {
             const data = await this.prismaService.magang.findUnique({
                 where: {
@@ -170,7 +170,7 @@ export class MagangService {
                 return {
                     status: 200,
                     message: 'post data failed',
-                    error: `data magang with id "${id}" not found`
+                    errors: `data magang with id "${id}" not found`
                 }
             }
 
@@ -178,15 +178,18 @@ export class MagangService {
                 where: { id: id },
             })
 
+            console.log(deleteData);
+
             return {
                 status: 200,
+                success: true,
                 message: `delete data magang with id "${id}" successfully`
             }
         } catch (error) {
             return {
                 status: 500,
                 message: `delete data failed`,
-                error: error
+                errors: error
             }
         }
     }

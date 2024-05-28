@@ -160,7 +160,7 @@ export class LokerService {
         }
     }
 
-    async delete(id: UUID): Promise<loker | any> {
+    async delete(id: UUID): Promise<WebResponse<loker | any>> {
         try {
             const data = await this.prismaService.loker.findUnique({
                 where: {
@@ -172,7 +172,7 @@ export class LokerService {
                 return {
                     status: 200,
                     message: 'post data failed',
-                    error: `data loker with id "${id}" not found`
+                    errors: `data loker with id "${id}" not found`
                 }
             }
 
@@ -180,15 +180,18 @@ export class LokerService {
                 where: { id: id },
             })
 
+            console.log(deleteData);
+
+
             return {
-                status: 200,
-                message: `delete data loker with id "${id}" successfully`
+                success: true,
+                message: `delete data loker with id "${id}" successfully`,
             }
         } catch (error) {
             return {
                 status: 500,
                 message: `delete data failed`,
-                error: error
+                errors: error
             }
         }
     }

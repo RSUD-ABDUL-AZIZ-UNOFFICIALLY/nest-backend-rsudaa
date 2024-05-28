@@ -65,22 +65,26 @@ export class AuthService {
     }
 
     async getOtp(req: getOtpUserRequest, res: Response): Promise<WebResponse<any>> {
-        const baseUrl = this.configService.get('API_URL')
+        const SIMRS_URL = this.configService.get('SIMRS_URL')
 
-        const getOtp = await axios.post(`${baseUrl}/getOtp`, {
+        const getOtp = await axios.post(`${SIMRS_URL}/rest/getOtp`, {
             phone: req.no_wa,
             app_name: 'dashboard'
         })
 
+        console.log(getOtp);
+
+
         return {
-            message: getOtp.data
+            success: true,
+            message: getOtp.data.message,
         }
 
     }
 
     async login(req: LoginUserRequest, res: Response): Promise<WebResponse<UserResponse>> {
 
-        const baseUrl = this.configService.get('API_URL')
+        const SIMRS_URL = this.configService.get('SIMRS_URL')
 
         const loginRequest: LoginUserRequest = this.validationService.validate(UserValidation.LOGIN, req)
 
@@ -104,14 +108,29 @@ export class AuthService {
         let token = ''
 
         try {
-            const getLogin = await axios.post(`${baseUrl}/login`, {
+            const getLogin = await axios.post(`${SIMRS_URL}/rest/login`, {
                 phone: req.no_wa,
                 otp: req.otp
             })
 
 
-            if (getLogin.data && getLogin.data.token_api) {
-                token = getLogin.data.token_api
+            user = await this.prismaService.user.update({
+                where: { no_wa: req.no_wa },
+                data: {
+                    token: getLogin.data.token_api
+                }
+            })
+
+            console.log(user);
+
+
+            return {
+                success: true,
+                message: 'login successfully',
+                data: {
+                    message: getLogin.data.message,
+                    token: user.token
+                }
             }
 
         } catch (error) {

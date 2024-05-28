@@ -142,7 +142,7 @@ export class ProfileService {
         }
     }
 
-    async update(dataName: string, name?: string, desc?: string, images?: Array<Express.Multer.File>): Promise<WebResponse<profile | any>> {
+    async update(dataName: string, name?: string, desc?: string): Promise<WebResponse<profile | any>> {
         try {
             const data = await this.prismaService.profile.findUnique({
                 where: {
@@ -158,31 +158,12 @@ export class ProfileService {
                 }
             }
 
-            if (images) {
-                for (let i = 0; i < images.length; i++) {
-                    const mimeType = mime.lookup(images[i].originalname);
-                    if (!mimeType || !['image/jpeg', 'image/jpg', 'image/png'].includes(mimeType)) {
-                        return {
-                            success: false,
-                            message: 'post data failed',
-                            errors: 'files must have images extensions [jpg, jpeg, png]'
-                        }
-                    }
-                }
-            }
 
-            let dataImages = []
-            if (images) {
-                for (let i = 0; i < images.length; i++) {
-                    dataImages.push(images[i].originalname)
-                }
-            }
 
             const validatedData = ProfileSchema.parse(
                 {
                     name: name ? name : data.name,
                     desc: desc ? desc : data.desc,
-                    images: images ? dataImages : data.images
                 }
             );
 
@@ -191,7 +172,6 @@ export class ProfileService {
                 data: {
                     name: name ? validatedData.name : data.name,
                     desc: desc ? validatedData.desc : data.desc,
-                    images: images ? dataImages : data.images
                 }
             });
 

@@ -38,21 +38,13 @@ export class ProfileController {
     }
 
     @Post('/update/:dataName')
-    @UseInterceptors(FilesInterceptor('images'))
     async updateActivity(
         @Auth() user: user,
         @Param('dataName') dataName: string,
         @Body('name') name?: string,
         @Body('desc') desc?: string,
-        @UploadedFiles(
-            new ParseFilePipeBuilder()
-                .build({
-                    errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
-                    fileIsRequired: false
-                }),
-        ) images?: Array<Express.Multer.File>,
     ): Promise<any> {
-        return await this.profileService.update(dataName, name, desc, images)
+        return await this.profileService.update(dataName, name, desc)
     }
 
     @Post('/delete/:name')

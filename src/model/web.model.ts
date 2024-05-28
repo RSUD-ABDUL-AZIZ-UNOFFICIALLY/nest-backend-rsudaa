@@ -3,6 +3,6 @@ export class WebResponse<T> {
     success?: Boolean
     message?: any
     allRecord?: number
-    data?: T
+    data?: any
     errors?: any
 }

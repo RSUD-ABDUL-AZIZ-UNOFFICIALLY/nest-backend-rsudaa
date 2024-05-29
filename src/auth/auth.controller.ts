@@ -4,7 +4,7 @@ import { getOtpUserRequest, LoginUserRequest, RegisterUserRequest, UserResponse 
 import { WebResponse } from 'src/model/web.model';
 import { Response } from 'express';
 
-@Controller('/auth')
+@Controller('/api/web-profile/auth')
 export class AuthController {
     constructor(
         private authService: AuthService

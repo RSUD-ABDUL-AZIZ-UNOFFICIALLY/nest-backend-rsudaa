@@ -5,7 +5,7 @@ import { WebResponse } from 'src/model/web.model';
 import { UUID } from 'crypto';
 import { applyMagangRequest } from 'src/model/applyMagang.model';
 
-@Controller('/api/app-magang')
+@Controller('/api/web-profile/app-magang')
 export class AppMagangController {
     constructor(
         private appLokerService: AppMagangService

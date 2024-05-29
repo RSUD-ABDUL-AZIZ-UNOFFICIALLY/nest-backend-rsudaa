@@ -6,7 +6,7 @@ import { Auth } from 'src/cummon/auth.decorator';
 import { user } from '@prisma/client';
 import { articleRequest } from 'src/model/articel.model';
 
-@Controller('/api/article')
+@Controller('/api/web-profile/article')
 export class ArticleController {
     constructor(
         private articleService: ArticleService

@@ -8,7 +8,7 @@ import { ZodDate, ZodDateDef } from 'zod';
 import { Auth } from 'src/cummon/auth.decorator';
 import { pengumumanRequest } from 'src/model/pengumuman.model';
 
-@Controller('/api/announcement')
+@Controller('/api/web-profile/announcement')
 export class AnnouncementController {
     constructor(
         private announcementService: AnnouncementService

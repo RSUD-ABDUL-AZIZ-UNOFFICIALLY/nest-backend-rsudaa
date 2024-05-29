@@ -4,7 +4,7 @@ import { user } from '@prisma/client';
 import { Auth } from 'src/cummon/auth.decorator';
 import { activityRequest } from 'src/model/activity.model';
 
-@Controller('/api/activity')
+@Controller('/api/web-profile/activity')
 export class ActivityController {
     constructor(
         private activityService: ActivityService

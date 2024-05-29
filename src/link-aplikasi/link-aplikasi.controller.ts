@@ -4,7 +4,7 @@ import { aplikasiRequest } from 'src/model/aplikasi.model';
 import { Auth } from 'src/cummon/auth.decorator';
 import { user } from '@prisma/client';
 
-@Controller('/api/link-aplikasi')
+@Controller('/api/web-profile/link-aplikasi')
 export class LinkAplikasiController {
     constructor(
         private linkAplikasiService: LinkAplikasiService
@@ -40,6 +40,6 @@ export class LinkAplikasiController {
         @Param('id') id: string,
         @Body() req: aplikasiRequest
     ) {
-        return this.linkAplikasiService.deleteData  (id)
+        return this.linkAplikasiService.deleteData(id)
     }
 }

@@ -3,7 +3,7 @@ import { WebResponse } from 'src/model/web.model';
 import { DokterService } from './dokter.service';
 import { string } from 'zod';
 
-@Controller('/api/dokter')
+@Controller('/api/web-profile/dokter')
 export class DokterController {
     constructor(
         private dokterService: DokterService

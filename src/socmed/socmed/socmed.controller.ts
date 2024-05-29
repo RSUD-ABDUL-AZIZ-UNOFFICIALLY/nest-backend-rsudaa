@@ -5,7 +5,7 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { Url } from 'url';
 import { Auth } from 'src/cummon/auth.decorator';
 
-@Controller('/api/socmed')
+@Controller('/api/web-profile/socmed')
 export class SocmedController {
     constructor(
         private socmedService: SocmedService

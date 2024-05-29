@@ -4,7 +4,7 @@ import { Auth } from 'src/cummon/auth.decorator';
 import { user } from '@prisma/client';
 import { maklumatPelayananRequest } from 'src/model/maklumatPelayanan';
 
-@Controller('/api/maklumat-pelayanan')
+@Controller('/api/web-profile/maklumat-pelayanan')
 export class MaklumatPelayananController {
     constructor(
         private maklumatPelayananService: MaklumatPelayananService

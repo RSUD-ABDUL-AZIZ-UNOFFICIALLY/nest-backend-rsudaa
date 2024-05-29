@@ -5,7 +5,7 @@ import { laporanTahunan, user } from '@prisma/client';
 import { laporanTahunanRequest, laporanTahunanUpdateRequest } from 'src/model/laporanTahunan.model';
 import { Auth } from 'src/cummon/auth.decorator';
 
-@Controller('/api/laporan-tahunan')
+@Controller('/api/web-profile/laporan-tahunan')
 export class LaporanTahunanController {
     constructor(
         private laporanTahunanService: LaporanTahunanService

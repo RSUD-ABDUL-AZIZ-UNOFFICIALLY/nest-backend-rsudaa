@@ -7,7 +7,7 @@ import { LokerCreateRequest } from 'src/model/loker.model';
 import { MagangService } from './magang.service';
 import { MagangCreateRequest } from 'src/model/magang.model';
 
-@Controller('/api/magang')
+@Controller('/api/web-profile/magang')
 export class MagangController {
     constructor(
         private magangService: MagangService

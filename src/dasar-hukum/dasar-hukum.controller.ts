@@ -4,7 +4,7 @@ import { user } from '@prisma/client';
 import { Auth } from 'src/cummon/auth.decorator';
 import { dasarHukumRequest } from 'src/model/dasarHukum.model';
 
-@Controller('/api/dasar-hukum')
+@Controller('/api/web-profile/dasar-hukum')
 export class DasarHukumController {
     constructor(
         private dasarHukumService: DasarHukumService

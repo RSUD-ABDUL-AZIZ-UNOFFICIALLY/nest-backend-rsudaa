@@ -7,7 +7,7 @@ import { Auth } from 'src/cummon/auth.decorator';
 import { applyLokerRequest, applyLokerResponse } from 'src/model/applyLoker.model';
 import { WebResponse } from 'src/model/web.model';
 
-@Controller('/api/app-loker')
+@Controller('/api/web-profile/app-loker')
 export class AppLokerController {
     constructor(
         private appLokerService: AppLokerService

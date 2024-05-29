@@ -4,7 +4,7 @@ import { profile, user } from '@prisma/client';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { Auth } from 'src/cummon/auth.decorator';
 
-@Controller('/api/profile')
+@Controller('/api/web-profile/profile')
 export class ProfileController {
     constructor(
         private profileService: ProfileService

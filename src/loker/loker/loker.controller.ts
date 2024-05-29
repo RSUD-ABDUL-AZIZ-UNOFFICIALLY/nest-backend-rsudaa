@@ -5,7 +5,7 @@ import { z } from "zod";
 import { UUID } from 'crypto';
 import { Auth } from 'src/cummon/auth.decorator';
 import { LokerCreateRequest } from 'src/model/loker.model';
-@Controller('/api/loker')
+@Controller('/api/web-profile/loker')
 export class LokerController {
     constructor(
         private lokerService: LokerService

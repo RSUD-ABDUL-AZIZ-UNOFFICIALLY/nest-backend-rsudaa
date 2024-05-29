@@ -7,7 +7,7 @@ import { user } from '@prisma/client';
 import { AuthMidlleware } from 'src/cummon/auth.middleware';
 import { Request, Response } from 'express';
 
-@Controller('/api/users')
+@Controller('/api/web-profile/users')
 export class UserController {
     constructor(
         private userService: UserService

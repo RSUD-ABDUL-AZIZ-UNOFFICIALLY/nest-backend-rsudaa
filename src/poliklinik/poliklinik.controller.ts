@@ -2,7 +2,7 @@ import { Controller, Get, Param, ParamData, Query } from '@nestjs/common';
 import { PoliklinikService } from './poliklinik.service';
 import { WebResponse } from 'src/model/web.model';
 
-@Controller('/api/poliklinik')
+@Controller('/api/web-profile/poliklinik')
 export class PoliklinikController {
     constructor(
         private poliklinikService: PoliklinikService

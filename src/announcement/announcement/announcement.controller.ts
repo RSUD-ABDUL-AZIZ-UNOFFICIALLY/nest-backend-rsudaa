@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Param, ParseFilePipeBuilder, Post, Query, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, ParseFilePipeBuilder, Post, Put, Query, UploadedFiles, UseInterceptors } from '@nestjs/common';
 import { AnnouncementService } from './announcement.service';
 import { announcement, user } from '@prisma/client';
 import { FilesInterceptor } from '@nestjs/platform-express';
@@ -6,6 +6,7 @@ import * as mime from 'mime-types';
 import { UUID } from 'crypto';
 import { ZodDate, ZodDateDef } from 'zod';
 import { Auth } from 'src/cummon/auth.decorator';
+import { pengumumanRequest } from 'src/model/pengumuman.model';
 
 @Controller('/api/announcement')
 export class AnnouncementController {
@@ -15,55 +16,29 @@ export class AnnouncementController {
 
     @Get()
     async getAnnounce(
-        @Query('data') data?: any
+        @Query('announcementID') announcementID?: string
     ): Promise<announcement | any> {
-        data = parseInt(data)
-        return this.announcementService.findAll(data)
+        return this.announcementService.findAll(announcementID)
     }
 
-    @Post('/post')
-    @UseInterceptors(FilesInterceptor('images'))
+    @Post()
     async postAnnouncement(
         @Auth() user: user,
-        @Body('title') title: string,
-        @Body('date') date: string,
-        @Body('desc') desc?: string,
-        @UploadedFiles(
-            new ParseFilePipeBuilder()
-                // .addFileTypeValidator({
-                //     fileType: 'image/jpeg',
-                // })
-                .build({
-                    errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
-                    fileIsRequired: false
-                }),
-        ) images?: Array<Express.Multer.File>,
+        @Body() req: pengumumanRequest,
     ): Promise<any> {
-        return await this.announcementService.save(title, desc, images)
+        return await this.announcementService.save(req)
     }
 
-    @Post('/update/:announcementID')
-    @UseInterceptors(FilesInterceptor('images'))
+    @Put('/:announcementID')
     async updateAnnouncement(
         @Auth() user: user,
-        @Param('announcementID') announcementID: UUID,
-        @Body('title') title?: string,
-        @Body('desc') desc?: string,
-        @UploadedFiles(
-            new ParseFilePipeBuilder()
-                // .addFileTypeValidator({
-                //     fileType: 'image/jpeg',
-                // })
-                .build({
-                    errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
-                    fileIsRequired: false
-                }),
-        ) images?: Array<Express.Multer.File>,
+        @Param('announcementID') announcementID: string,
+        @Body() req: pengumumanRequest,
     ): Promise<any> {
-        return await this.announcementService.update(announcementID, title, desc, images)
+        return await this.announcementService.update(announcementID, req)
     }
 
-    @Post('/delete/:announcementID')
+    @Delete('/:announcementID')
     async deleteActivity(
         @Auth() user: user,
         @Param('announcementID') announcementID: string,

@@ -4,10 +4,14 @@ import { randomUUID } from 'crypto';
 import { z } from "zod";
 import * as mime from 'mime-types';
 import { PrismaService } from 'src/prisma/prisma/prisma.service';
+import { WebResponse } from 'src/model/web.model';
+import { activityRequest } from 'src/model/activity.model';
+
 const ActivitySchema = z.object({
-    activityId: z.string().uuid(),
+    activityID: z.string(),
     title: z.string(),
     desc: z.string().optional(),
+    images: z.any().optional()
 });
 
 @Injectable()
@@ -16,18 +20,16 @@ export class ActivityService {
         private prismaService: PrismaService,
     ) { }
 
-    async findAll(data?: number): Promise<activity | any> {
+    async findAll(activityID?: string): Promise<WebResponse<activity | activity[]>> {
         try {
-            let activity = null
-            if (data) {
-                activity = await this.prismaService.activity.findMany({
-                    take: data,
-                    orderBy: {
-                        createdAt: 'desc'
-                    }
-                })
-            } else {
-                activity = await this.prismaService.activity.findMany({
+            let activity: activity | activity[] = await this.prismaService.activity.findMany({
+                orderBy: {
+                    createdAt: 'desc'
+                }
+            })
+            if (activityID) {
+                activity = await this.prismaService.activity.findFirst({
+                    where: { activityID: activityID },
                     orderBy: {
                         createdAt: 'desc'
                     }
@@ -35,203 +37,128 @@ export class ActivityService {
             }
 
             return {
-                status: 200,
+                success: true,
                 message: 'get data successfully',
-                data: {
-                    activity: activity
-                }
+                data: activity
             }
         } catch (error) {
             return {
                 status: 500,
                 message: 'get data failed   ',
-                error: error
+                errors: error
             }
         }
     }
-    async findAllPagination(page: number): Promise<activity | any> {
+
+    async save(req: activityRequest): Promise<WebResponse<activity>> {
         try {
-            const activity = await this.prismaService.activity.findMany({
-                take: 2,
+            const activityID = randomUUID()
+
+            const validate = ActivitySchema.parse({
+                activityID: activityID,
+                title: req.title,
+                desc: req.desc,
+                images: req.images ? req.images : null
+            })
+
+            const save = await this.prismaService.activity.create({
+                data: {
+                    activityID: validate.activityID,
+                    title: validate.title,
+                    desc: validate.desc,
+                    images: validate.images
+                }
             })
 
             return {
-                status: 200,
-                message: 'get data successfully',
-                data: {
-                    activity: activity
-                }
+                success: true,
+                message: 'create data successfully',
+                data: save
             }
         } catch (error) {
             return {
-                status: 500,
-                message: 'get data failed   ',
-                error: error
-            }
-        }
-    }
-
-    findOne(name: string) {
-        try {
-
-
-        } catch (error) {
-            return {
-                status: false,
-                message: 'error',
-                error: error
-            }
-        }
-    }
-
-    async save(title: string, desc?: string, images?: Array<Express.Multer.File>): Promise<any> {
-        try {
-            if (images) {
-                for (let i = 0; i < images.length; i++) {
-                    const mimeType = mime.lookup(images[i].originalname);
-                    if (!mimeType || !['image/jpeg', 'image/jpg', 'image/png'].includes(mimeType)) {
-                        return {
-                            status: 200,
-                            message: 'post data failed',
-                            error: 'files must have images extensions [jpg, jpeg, png]'
-                        }
-                    }
-                }
-            }
-
-            const activityId = randomUUID()
-
-            const validatedData = ActivitySchema.parse(
-                {
-                    activityId,
-                    title,
-                    desc
-                });
-
-            let activityImages = []
-            if (images) {
-                for (let i = 0; i < images.length; i++) {
-                    activityImages.push(images[i].originalname)
-                }
-            }
-
-            const newActivity = await this.prismaService.activity.create({
-                data: {
-                    activityID: validatedData.activityId,
-                    title: validatedData.title,
-                    desc: validatedData.desc,
-                    images: activityImages
-                }
-            });
-
-            return {
-                status: 200,
-                message: 'create data activity successfully',
-                data: {
-                    activity: newActivity
-                }
-            }
-        } catch (error) {
-            return {
-                status: 500,
+                success: false,
                 message: `create data failed`,
-                error: error
+                errors: error
             }
         }
     }
 
-    async update(activityId: string, title?: string, desc?: string, images?: Array<Express.Multer.File>): Promise<any> {
+    async update(activityID: string, req: activityRequest): Promise<WebResponse<activity>> {
         try {
-            const dataActivity = await this.prismaService.activity.findUnique({
-                where: {
-                    activityID: activityId
-                },
-            });
+            let activity = await this.prismaService.activity.findFirst({
+                where: { activityID: activityID }
+            })
 
-            if (!dataActivity) {
+            if (!activity) {
                 return {
-                    status: 200,
-                    message: 'post data failed',
-                    error: `Activiry with ID "${activityId}" not found`
+                    success: false,
+                    message: `activity not found`
                 }
             }
 
-            if (images) {
-                for (let i = 0; i < images.length; i++) {
-                    const mimeType = mime.lookup(images[i].originalname);
-                    if (!mimeType || !['image/jpeg', 'image/jpg', 'image/png'].includes(mimeType)) {
-                        return {
-                            status: 200,
-                            message: 'post data failed',
-                            error: 'files must have images extensions [jpg, jpeg, png]'
-                        }
-                    }
-                }
-            }
+            const validate = ActivitySchema.parse({
+                activityID: activityID,
+                title: req.title ? req.title : activity.title,
+                desc: req.desc ? req.desc : activity.desc,
+                images: req.images ? req.images : activity.images
+            })
 
-            let activityImages = []
-            if (images) {
-                for (let i = 0; i < images.length; i++) {
-                    activityImages.push(images[i].originalname)
-                }
-            }
-            const validatedData = ActivitySchema.parse({ activityId, title, desc });
-
-            const updatedActivity = await this.prismaService.activity.update({
-                where: { activityID: activityId },
+            const update = await this.prismaService.activity.update({
+                where: { activityID: activityID },
                 data: {
-                    activityID: dataActivity.activityID,
-                    title: title ? validatedData.title : dataActivity.title,
-                    desc: desc ? validatedData.desc : dataActivity.desc,
-                    images: images ? activityImages : dataActivity.images
+                    title: validate.title,
+                    desc: validate.desc,
+                    images: validate.images
                 }
-            });
+            })
 
             return {
-                status: 200,
+                success: true,
                 message: 'update data successfully',
-                data: updatedActivity
+                data: update
             }
         } catch (error) {
             return {
                 status: 500,
                 message: `update data failed`,
-                error: error
+                errors: error
             }
         }
     }
-    async delete(activityId: string): Promise<any> {
+    async delete(activityID: string): Promise<WebResponse<any>> {
         try {
             const dataActivity = await this.prismaService.activity.findUnique({
                 where: {
-                    activityID: activityId
+                    activityID: activityID
                 },
             });
 
             if (!dataActivity) {
                 return {
-                    status: 200,
+                    success: false,
                     message: 'delete data failed',
-                    error: `Activiry with ID "${activityId}" not found`
+                    errors: `Article with ID "${activityID}" not found`
                 }
             }
 
-            const deleteActivity = await this.prismaService.activity.delete({
+            const deleteArticle = await this.prismaService.activity.delete({
                 where: {
-                    activityID: activityId
+                    activityID: activityID
                 },
             });
 
+            console.log(deleteArticle);
+
             return {
-                status: 200,
+                success: true,
                 message: 'delete data successfully',
-                data: deleteActivity
             }
         } catch (error) {
             return {
-                status: 500,
+                success: false,
                 message: `delete data failed`,
-                error: error
+                errors: error
             }
         }
     }

@@ -4,11 +4,15 @@ import { randomUUID } from 'crypto';
 import { PrismaService } from 'src/prisma/prisma/prisma.service';
 import { date, z } from "zod";
 import * as mime from 'mime-types';
+import { WebResponse } from 'src/model/web.model';
+import { pengumumanRequest } from 'src/model/pengumuman.model';
+import { title } from 'process';
 
 const AnnounceSchema = z.object({
-    announcementID: z.string().uuid(),
+    announcementID: z.string(),
     title: z.string(),
     desc: z.string().optional(),
+    images: z.any().optional()
 });
 
 @Injectable()
@@ -17,162 +21,114 @@ export class AnnouncementService {
         private prismaService: PrismaService,
     ) { }
 
-    async findAll(data?: number): Promise<announcement | any> {
+    async findAll(announcementID?: string): Promise<WebResponse<announcement>> {
         try {
-            let announcement = null
+            let announcement: announcement | announcement[] = await this.prismaService.announcement.findMany({
+                orderBy: { createdAt: 'desc' }
+            })
 
-            if (data) {
-                announcement = await this.prismaService.announcement.findMany({
-                    take: data,
+            if (announcementID) {
+                announcement = await this.prismaService.announcement.findFirst({
+                    where: { announcementID: announcementID },
                     orderBy: {
                         createdAt: 'desc'
                     }
                 })
-            } else {
-                announcement = await this.prismaService.announcement.findMany()
             }
 
             return {
-                status: 200,
+                success: true,
                 message: 'get data successfully',
-                data: {
-                    announcement: announcement
-                }
+                data: announcement
             }
         } catch (error) {
             return {
-                status: 500,
+                success: false,
                 message: 'get data failed   ',
-                error: error
+                errors: error
             }
         }
     }
 
-    async save(title: string, desc?: string, images?: Array<Express.Multer.File>): Promise<any> {
+    async save(req: pengumumanRequest): Promise<WebResponse<announcement>> {
         try {
-            if (images) {
-                for (let i = 0; i < images.length; i++) {
-                    const mimeType = mime.lookup(images[i].originalname);
-                    if (!mimeType || !['image/jpeg', 'image/jpg', 'image/png'].includes(mimeType)) {
-                        return {
-                            status: 200,
-                            message: 'post data failed',
-                            error: 'files must have images extensions [jpg, jpeg, png]'
-                        }
-                    }
-                }
-            }
-
             const announcementID = randomUUID()
 
-            const validatedData = AnnounceSchema.parse(
-                {
-                    announcementID,
-                    title,
-                    desc
-                }
-            );
+            const validate = AnnounceSchema.parse({
+                announcementID: announcementID,
+                title: req.title,
+                desc: req.desc,
+                images: req.images ? req.images : null
+            })
 
-            let announcementImages = []
-            if (images) {
-                for (let i = 0; i < images.length; i++) {
-                    announcementImages.push(images[i].originalname)
-                }
-            }
-
-            const newAnnouncement = await this.prismaService.announcement.create({
+            const save = await this.prismaService.announcement.create({
                 data: {
-                    announcementID: validatedData.announcementID,
-                    title: validatedData.title,
-                    desc: validatedData.desc,
-                    images: announcementImages
+                    announcementID: validate.announcementID,
+                    title: validate.title,
+                    desc: validate.desc,
+                    images: validate.images
                 }
-            });
+            })
 
             return {
-                status: 200,
-                message: 'create data announcement successfully',
-                data: {
-                    activity: newAnnouncement
-                }
+                success: true,
+                message: 'create data successfully',
+                data: save
             }
         } catch (error) {
             return {
                 status: 500,
                 message: `create data failed`,
-                error: error
+                errors: error
             }
         }
     }
 
-    async update(announcementID: string, title?: string, desc?: string, images?: Array<Express.Multer.File>): Promise<any> {
+    async update(announcementID: string, req: pengumumanRequest): Promise<WebResponse<announcement>> {
         try {
-            const dataAnnnouncement = await this.prismaService.announcement.findUnique({
-                where: {
-                    announcementID: announcementID
-                },
-            });
+            let announcement = await this.prismaService.announcement.findFirst({
+                where: { announcementID: announcementID }
+            })
 
-            if (!dataAnnnouncement) {
+
+            if (!announcement) {
                 return {
-                    status: 200,
-                    message: 'post data failed',
-                    error: `Announcement with ID "${announcementID}" not found`
+                    success: false,
+                    message: `announcement not found`
                 }
             }
 
-            if (images) {
-                for (let i = 0; i < images.length; i++) {
-                    const mimeType = mime.lookup(images[i].originalname);
-                    if (!mimeType || !['image/jpeg', 'image/jpg', 'image/png'].includes(mimeType)) {
-                        return {
-                            status: 200,
-                            message: 'post data failed',
-                            error: 'files must have images extensions [jpg, jpeg, png]'
-                        }
-                    }
-                }
-            }
+            const validate = AnnounceSchema.parse({
+                announcementID: announcementID,
+                title: req.title ? req.title : announcement.title,
+                desc: req.desc ? req.desc : announcement.desc,
+                images: req.images ? req.images : announcement.images
+            })
 
-            let announcementImages = []
-            if (images) {
-                for (let i = 0; i < images.length; i++) {
-                    announcementImages.push(images[i].originalname)
-                }
-            }
-            const validatedData = AnnounceSchema.parse(
-                {
-                    announcementID: dataAnnnouncement.announcementID,
-                    title: title ? title : dataAnnnouncement.title,
-                    desc: desc ? desc : dataAnnnouncement.desc
-                }
-            );
-
-            const updatedAnnouncement = await this.prismaService.announcement.update({
+            const update = await this.prismaService.announcement.update({
                 where: { announcementID: announcementID },
                 data: {
-                    announcementID: dataAnnnouncement.announcementID,
-                    title: title ? validatedData.title : dataAnnnouncement.title,
-                    desc: desc ? validatedData.desc : dataAnnnouncement.desc,
-                    images: images ? announcementImages : dataAnnnouncement.images
+                    title: validate.title,
+                    desc: validate.desc,
+                    images: validate.images
                 }
-            });
+            })
 
             return {
-                status: 200,
+                success: true,
                 message: 'update data successfully',
-                data: updatedAnnouncement
+                data: update
             }
         } catch (error) {
             return {
                 status: 500,
                 message: `update data failed`,
-                error: error
+                errors: error
             }
         }
     }
 
-    async delete(announcementID: string): Promise<any> {
+    async delete(announcementID: string): Promise<WebResponse<any>> {
         try {
             const dataAnnnouncement = await this.prismaService.announcement.findUnique({
                 where: {
@@ -182,9 +138,9 @@ export class AnnouncementService {
 
             if (!dataAnnnouncement) {
                 return {
-                    status: 200,
+                    success: false,
                     message: 'delete data failed',
-                    error: `Announcement with ID "${announcementID}" not found`
+                    errors: `Announcement with ID "${announcementID}" not found`
                 }
             }
 
@@ -194,16 +150,17 @@ export class AnnouncementService {
                 },
             });
 
+            console.log(deleteAnnouncement);
+
             return {
-                status: 200,
+                success: true,
                 message: 'delete data successfully',
-                data: deleteAnnouncement
             }
         } catch (error) {
             return {
-                status: 500,
+                success: false,
                 message: `delete data failed`,
-                error: error
+                errors: error
             }
         }
     }

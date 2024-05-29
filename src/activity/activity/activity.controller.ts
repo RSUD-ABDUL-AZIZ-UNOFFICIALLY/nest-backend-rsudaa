@@ -1,13 +1,8 @@
-import { Body, Controller, FileTypeValidator, Get, Header, HttpStatus, MaxFileSizeValidator, Param, ParamData, ParseFilePipe, ParseFilePipeBuilder, Post, Query, Req, Res, UploadedFile, UploadedFiles, UseInterceptors } from '@nestjs/common';
-import { Response } from "express";
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { ActivityService } from './activity.service';
-import { activity, user } from '@prisma/client';
-import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
-import { promises } from 'dns';
-import * as mime from 'mime-types';
-import { log } from 'console';
+import { user } from '@prisma/client';
 import { Auth } from 'src/cummon/auth.decorator';
-import { WebResponse } from 'src/model/web.model';
+import { activityRequest } from 'src/model/activity.model';
 
 @Controller('/api/activity')
 export class ActivityController {
@@ -17,57 +12,33 @@ export class ActivityController {
 
     @Get()
     async getActivity(
-        @Query('data') data?: any
-    ): Promise<WebResponse<any>> {
-        data = parseInt(data)
-        return this.activityService.findAll(data)
+        @Query('activityID') activityID?: string
+    ) {
+        return this.activityService.findAll(activityID)
     }
 
-    @Get('/findone/:name')
-    findOne(@Param('name') name: string) {
-        return this.activityService.findOne(name)
-    }
-
-    @Post('/post')
-    @UseInterceptors(FilesInterceptor('images'))
+    @Post()
     async postActivity(
         @Auth() user: user,
-        @Body('title') title: string,
-        @Body('desc') desc?: string,
-        @UploadedFiles(
-            new ParseFilePipeBuilder()
-                .build({
-                    errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
-                    fileIsRequired: false
-                }),
-        ) images?: Array<Express.Multer.File>,
-    ): Promise<any> {
-        return await this.activityService.save(title, desc, images)
+        @Body() req: activityRequest,
+    ) {
+        return await this.activityService.save(req)
     }
 
-    @Post('/update/:activityId')
-    @UseInterceptors(FilesInterceptor('images'))
+    @Put('/:activityID')
     async updateActivity(
         @Auth() user: user,
-        @Param('activityId') activityId: string,
-        @Body('title') title?: string,
-        @Body('desc') desc?: string,
-        @UploadedFiles(
-            new ParseFilePipeBuilder()
-                .build({
-                    errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
-                    fileIsRequired: false
-                }),
-        ) images?: Array<Express.Multer.File>,
-    ): Promise<any> {
-        return await this.activityService.update(activityId, title, desc, images)
+        @Param('activityID') activityID: string,
+        @Body() req: activityRequest,
+    ) {
+        return await this.activityService.update(activityID, req)
     }
 
-    @Post('/delete/:activityId')
+    @Delete('/:activityID')
     async deleteActivity(
         @Auth() user: user,
-        @Param('activityId') activityId: string,
-    ): Promise<any> {
-        return await this.activityService.delete(activityId)
+        @Param('activityID') activityID: string,
+    ) {
+        return await this.activityService.delete(activityID)
     }
 }

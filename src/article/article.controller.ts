@@ -1,9 +1,10 @@
-import { Body, Controller, Get, HttpStatus, Param, ParseFilePipeBuilder, Post, Query, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, ParseFilePipeBuilder, Post, Put, Query, UploadedFiles, UseInterceptors } from '@nestjs/common';
 import { ArticleService } from './article.service';
 import { WebResponse } from 'src/model/web.model';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { Auth } from 'src/cummon/auth.decorator';
 import { user } from '@prisma/client';
+import { articleRequest } from 'src/model/articel.model';
 
 @Controller('/api/article')
 export class ArticleController {
@@ -13,52 +14,33 @@ export class ArticleController {
 
     @Get()
     async getActivity(
-        @Query('data') data?: any
-    ): Promise<WebResponse<any>> {
-        data = parseInt(data)
-        return this.articleService.findAll(data)
+        @Query('articleID') articleID?: string
+    ) {
+        return this.articleService.findAll(articleID)
     }
 
-    @Post('/post')
-    @UseInterceptors(FilesInterceptor('images'))
+    @Post()
     async postActivity(
         @Auth() user: user,
-        @Body('title') title: string,
-        @Body('desc') desc?: string,
-        @UploadedFiles(
-            new ParseFilePipeBuilder()
-                .build({
-                    errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
-                    fileIsRequired: false
-                }),
-        ) images?: Array<Express.Multer.File>,
-    ): Promise<any> {
-        return await this.articleService.save(title, desc, images)
+        @Body() req: articleRequest,
+    ) {
+        return await this.articleService.save(req)
     }
 
-    @Post('/update/:articleId')
-    @UseInterceptors(FilesInterceptor('images'))
+    @Put('/:articleID')
     async updateActivity(
         @Auth() user: user,
-        @Param('articleId') articleId: string,
-        @Body('title') title?: string,
-        @Body('desc') desc?: string,
-        @UploadedFiles(
-            new ParseFilePipeBuilder()
-                .build({
-                    errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
-                    fileIsRequired: false
-                }),
-        ) images?: Array<Express.Multer.File>,
-    ): Promise<any> {
-        return await this.articleService.update(articleId, title, desc, images)
+        @Param('articleID') articleID: string,
+        @Body() req: articleRequest,
+    ) {
+        return await this.articleService.update(articleID, req)
     }
 
-    @Post('/delete/:articleId')
+    @Delete('/:articleID')
     async deleteActivity(
         @Auth() user: user,
-        @Param('articleId') activityId: string,
-    ): Promise<any> {
-        return await this.articleService.delete(activityId)
+        @Param('articleID') articleID: string,
+    ) {
+        return await this.articleService.delete(articleID)
     }
 }

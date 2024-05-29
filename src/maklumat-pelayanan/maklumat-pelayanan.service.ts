@@ -1,31 +1,30 @@
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { dasarHukum } from '@prisma/client';
+import { maklumatPelayanan } from '@prisma/client';
 import { randomUUID } from 'crypto';
-import { dasarHukumRequest } from 'src/model/dasarHukum.model';
+import { maklumatPelayananRequest } from 'src/model/maklumatPelayanan';
 import { WebResponse } from 'src/model/web.model';
 import { PrismaService } from 'src/prisma/prisma/prisma.service';
 import { z } from 'zod';
 
-const dasarHukumSchema = z.object({
-    name: z.string().min(1).max(250),
-    file: z.string().min(1).max(1000).optional(),
+const maklumatPelayananSchema = z.object({
+    file: z.string().min(1).max(1000),
 })
 
+
 @Injectable()
-export class DasarHukumService {
+export class MaklumatPelayananService {
     constructor(
         private prismaService: PrismaService,
-        private configService: ConfigService
+
     ) { }
 
-    async getData(id?: string): Promise<WebResponse<dasarHukum | dasarHukum[]>> {
-        let aplikasi: dasarHukum | dasarHukum[] = await this.prismaService.dasarHukum.findMany({
+    async getData(id?: string): Promise<WebResponse<maklumatPelayanan | maklumatPelayanan[]>> {
+        let aplikasi: maklumatPelayanan | maklumatPelayanan[] = await this.prismaService.maklumatPelayanan.findMany({
             orderBy: { createdAt: 'desc' }
         })
 
         if (id) {
-            aplikasi = await this.prismaService.dasarHukum.findFirst({
+            aplikasi = await this.prismaService.maklumatPelayanan.findFirst({
                 where: { id: id },
                 orderBy: { createdAt: 'desc' }
             })
@@ -45,20 +44,18 @@ export class DasarHukumService {
         }
     }
 
-    async postData(req: dasarHukumRequest): Promise<WebResponse<dasarHukum>> {
-        const { name, file } = req
+    async postData(req: maklumatPelayananRequest): Promise<WebResponse<maklumatPelayanan>> {
+        const { file } = req
         const id = randomUUID()
 
-        const validate = dasarHukumSchema.parse({
-            name: name,
+        const validate = maklumatPelayananSchema.parse({    
             file: file
         })
 
 
-        const saveData = await this.prismaService.dasarHukum.create({
+        const saveData = await this.prismaService.maklumatPelayanan.create({
             data: {
                 id: id,
-                name: validate.name,
                 file: validate.file
             }
         })
@@ -70,8 +67,8 @@ export class DasarHukumService {
         }
     }
 
-    async updateData(id: string, req: dasarHukumRequest): Promise<WebResponse<dasarHukum>> {
-        let aplikasi = await this.prismaService.dasarHukum.findUnique({
+    async updateData(id: string, req: maklumatPelayananRequest): Promise<WebResponse<maklumatPelayanan>> {
+        let aplikasi = await this.prismaService.maklumatPelayanan.findUnique({
             where: { id: id }
         })
 
@@ -82,15 +79,13 @@ export class DasarHukumService {
             }
         }
 
-        const validate = dasarHukumSchema.parse({
-            name: req.name ? req.name : aplikasi.name,
+        const validate = maklumatPelayananSchema.parse({
             file: req.file ? req.file : aplikasi.file
         })
 
-        const updateData = await this.prismaService.dasarHukum.update({
+        const updateData = await this.prismaService.maklumatPelayanan.update({
             where: { id: id },
             data: {
-                name: validate.name,
                 file: validate.file
             }
         })
@@ -103,7 +98,7 @@ export class DasarHukumService {
     }
 
     async deleteData(id: string): Promise<WebResponse<any>> {
-        const unique = await this.prismaService.dasarHukum.findUnique({
+        const unique = await this.prismaService.maklumatPelayanan.findUnique({
             where: { id: id }
         })
 
@@ -114,7 +109,7 @@ export class DasarHukumService {
             }
         }
 
-        const deleteData = await this.prismaService.dasarHukum.delete({
+        const deleteData = await this.prismaService.maklumatPelayanan.delete({
             where: { id: id }
         })
 

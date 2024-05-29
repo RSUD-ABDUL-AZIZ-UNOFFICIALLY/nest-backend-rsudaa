@@ -193,3 +193,12 @@ model dasarHukum {
 
   @@map("dasarHukum")
 }
+
+model maklumatPelayanan {
+  id        String   @id @unique @db.VarChar(250)
+  file      String   @db.VarChar(1000)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("maklumatPelayanan")
+}

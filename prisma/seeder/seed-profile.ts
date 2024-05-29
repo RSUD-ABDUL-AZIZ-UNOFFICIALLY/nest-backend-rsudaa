@@ -10,7 +10,17 @@ async function main() {
                 fullName: 'Amirull Azmi',
                 no_wa: '08994627432',
                 password: '12345'
-            }
+            },
+            {
+                fullName: 'Hamida',
+                no_wa: '0895600393063',
+                password: '12345'
+            },
+            {
+                fullName: 'Devian Balado',
+                no_wa: '089656885638',
+                password: '12345'
+            },
         ]
     })
 

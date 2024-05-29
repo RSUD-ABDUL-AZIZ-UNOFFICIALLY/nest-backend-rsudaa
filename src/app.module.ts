@@ -22,6 +22,7 @@ import { LaporanTahunanModule } from './laporan-tahunan/laporan-tahunan.module';
 import { FileLaporanTahunanModule } from './file-laporan-tahunan/file-laporan-tahunan.module';
 import { LinkAplikasiModule } from './link-aplikasi/link-aplikasi.module';
 import { DasarHukumModule } from './dasar-hukum/dasar-hukum.module';
+import { MaklumatPelayananModule } from './maklumat-pelayanan/maklumat-pelayanan.module';
 
 
 @Module({
@@ -45,6 +46,7 @@ import { DasarHukumModule } from './dasar-hukum/dasar-hukum.module';
     FileLaporanTahunanModule,
     LinkAplikasiModule,
     DasarHukumModule,
+    MaklumatPelayananModule,
   ],
   controllers: [],
   providers: [],

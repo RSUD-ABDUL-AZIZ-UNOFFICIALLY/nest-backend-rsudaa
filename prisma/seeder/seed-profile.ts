@@ -118,6 +118,11 @@ async function main() {
                 images: null,
             },
             {
+                name: 'skmImage',
+                desc: '',
+                images: null,
+            },
+            {
                 name: 'nameDirektur',
                 desc: 'Dr Alexandre',
             },

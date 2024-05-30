@@ -126,7 +126,7 @@ model applicationLoker {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  @@map("applicationLokers")
+  @@map("application_lokers")
 }
 
 model applicationMagang {
@@ -148,7 +148,7 @@ model applicationMagang {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  @@map("applicationMagangs")
+  @@map("application_magangs")
 }
 
 model laporanTahunan {
@@ -158,7 +158,7 @@ model laporanTahunan {
   updatedAt          DateTime             @updatedAt
   fileLaporanTahunan fileLaporanTahunan[]
 
-  @@map("laporanTahunan")
+  @@map("laporan_tahunan")
 }
 
 model fileLaporanTahunan {
@@ -171,7 +171,7 @@ model fileLaporanTahunan {
   createdAt          DateTime       @default(now())
   updatedAt          DateTime       @updatedAt
 
-  @@map("fileLaporanTahunan")
+  @@map("file_laporan_tahunan")
 }
 
 model linkAplikasi {
@@ -181,7 +181,7 @@ model linkAplikasi {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("linkAplikasi")
+  @@map("link_aplikasi")
 }
 
 model dasarHukum {
@@ -191,7 +191,7 @@ model dasarHukum {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("dasarHukum")
+  @@map("dasar_hukum")
 }
 
 model maklumatPelayanan {
@@ -200,5 +200,5 @@ model maklumatPelayanan {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("maklumatPelayanan")
+  @@map("maklumat_pelayanan")
 }

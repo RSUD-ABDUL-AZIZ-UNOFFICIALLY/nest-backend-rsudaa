@@ -113,6 +113,9 @@ export class AuthService {
                 otp: req.otp
             })
 
+            console.log('succes with otp', getLogin.data.token_api);
+
+
 
             user = await this.prismaService.user.update({
                 where: { no_wa: req.no_wa },
@@ -122,7 +125,6 @@ export class AuthService {
             })
 
             console.log(user);
-
 
             return {
                 success: true,
